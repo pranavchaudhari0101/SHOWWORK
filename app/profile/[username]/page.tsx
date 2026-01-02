@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { MapPin, Building2, Briefcase, Github, Linkedin, Globe, Heart, Eye, Bookmark } from 'lucide-react'
+import { MapPin, Building2, Briefcase, Github, Linkedin, Globe, Heart, Eye } from 'lucide-react'
 
 export default function ProfilePage({ params }: { params: { username: string } }) {
     return (

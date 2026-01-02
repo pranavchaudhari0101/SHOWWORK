@@ -104,7 +104,7 @@ export default function HomePage() {
                                 <Play className="w-5 h-5" />
                             </div>
                             <h3 className="text-lg font-medium mb-3">Video Demos</h3>
-                            <p className="text-sm text-gray-500 leading-relaxed">Show, don't tell. Upload 2-minute demos that showcase your projects in action.</p>
+                            <p className="text-sm text-gray-500 leading-relaxed">Show, don&apos;t tell. Upload 2-minute demos that showcase your projects in action.</p>
                         </div>
 
                         <div className="feature-card">
@@ -120,7 +120,7 @@ export default function HomePage() {
                                 <BarChart2 className="w-5 h-5" />
                             </div>
                             <h3 className="text-lg font-medium mb-3">Analytics</h3>
-                            <p className="text-sm text-gray-500 leading-relaxed">Track who's viewing your work. Understand what resonates with recruiters.</p>
+                            <p className="text-sm text-gray-500 leading-relaxed">Track who&apos;s viewing your work. Understand what resonates with recruiters.</p>
                         </div>
 
                         <div className="feature-card">
@@ -251,7 +251,7 @@ export default function HomePage() {
                     <h2 className="text-3xl md:text-4xl font-medium mb-4">
                         Ready to showcase your work<span className="accent-dot">?</span>
                     </h2>
-                    <p className="text-lg text-gray-400 mb-8">Join thousands of students who've already landed their dream roles.</p>
+                    <p className="text-lg text-gray-400 mb-8">Join thousands of students who&apos;ve already landed their dream roles.</p>
                     <Link href="/register" className="btn btn-primary px-8 py-4 text-base">
                         Create your portfolio
                         <ArrowRight className="w-5 h-5" />

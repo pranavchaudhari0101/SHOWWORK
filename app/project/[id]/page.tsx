@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Heart, Eye, Bookmark, Share2, ExternalLink, Github, ChevronLeft } from 'lucide-react'
+import { Heart, Bookmark, Share2, ExternalLink, Github, ChevronLeft } from 'lucide-react'
 
-export default function ProjectPage({ params }: { params: { id: string } }) {
+export default function ProjectPage({ params: _params }: { params: { id: string } }) {
     return (
         <>
             {/* Navigation */}
@@ -78,7 +78,7 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
                                     This AI Chat Application is a sophisticated real-time assistant that leverages the power of modern language models to provide intelligent, context-aware responses.
                                 </p>
                                 <p>
-                                    Built with React for the frontend and Node.js for the backend, it features seamless integration with OpenAI's API, real-time message streaming, and a beautiful, responsive interface.
+                                    Built with React for the frontend and Node.js for the backend, it features seamless integration with OpenAI&apos;s API, real-time message streaming, and a beautiful, responsive interface.
                                 </p>
                                 <h3 className="text-white font-medium mt-6 mb-2">Key Features</h3>
                                 <ul className="list-disc list-inside text-gray-400 space-y-1">

@@ -8,7 +8,7 @@ export default function DashboardPage() {
             <div className="flex justify-between items-center mb-8">
                 <div>
                     <h1 className="text-2xl font-medium mb-1">Welcome back, John</h1>
-                    <p className="text-gray-500">Here's what's happening with your portfolio</p>
+                    <p className="text-gray-500">Here&apos;s what&apos;s happening with your portfolio</p>
                 </div>
                 <Link href="/upload" className="btn btn-primary">
                     <Plus className="w-4 h-4" />
