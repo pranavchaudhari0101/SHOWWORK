@@ -1,4 +1,5 @@
--- Run this in Supabase SQL Editor to fix the "Database error saving new user"
+-- 0. Enable UUID Extension (CRITICAL)
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- 1. Ensure Categories table exists (Idempotent)
 CREATE TABLE IF NOT EXISTS categories (
@@ -32,22 +33,17 @@ CREATE TABLE IF NOT EXISTS profiles (
 );
 
 -- 3. Seed Categories (Safe to run multiple times)
+-- Updated slugs to match Register Page exactly
 INSERT INTO categories (slug, name, icon) VALUES
-    ('software-engineer', 'Software Engineer', 'code'),
-    ('frontend-developer', 'Frontend Developer', 'layout'),
-    ('backend-developer', 'Backend Developer', 'server'),
-    ('fullstack-developer', 'Full-Stack Developer', 'layers'),
-    ('data-analyst', 'Data Analyst', 'bar-chart'),
-    ('data-scientist', 'Data Scientist', 'line-chart'),
-    ('devops-engineer', 'DevOps Engineer', 'git-branch'),
-    ('cybersecurity-analyst', 'Cybersecurity Analyst', 'shield'),
-    ('ux-ui-designer', 'UX/UI Designer', 'figma'),
-    ('ai-ml-engineer', 'AI/ML Engineer', 'brain'),
-    ('cloud-engineer', 'Cloud Engineer', 'cloud'),
-    ('mobile-developer', 'Mobile Developer', 'smartphone'),
-    ('game-developer', 'Game Developer', 'gamepad-2'),
-    ('blockchain-developer', 'Blockchain Developer', 'link')
-ON CONFLICT (slug) DO NOTHING;
+    ('fullstack', 'Full-Stack Developer', 'layers'),
+    ('frontend', 'Frontend Developer', 'layout'),
+    ('backend', 'Backend Developer', 'server'),
+    ('ml', 'AI/ML Engineer', 'brain'),
+    ('data', 'Data Scientist', 'line-chart'),
+    ('mobile', 'Mobile Developer', 'smartphone'),
+    ('devops', 'DevOps Engineer', 'git-branch'),
+    ('design', 'UX/UI Designer', 'figma')
+ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name;
 
 -- 4. Update the Trigger Function (The Fix)
 CREATE OR REPLACE FUNCTION handle_new_user()
