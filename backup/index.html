@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShowWork - Showcase Your Projects, Get Discovered</title>
+    <meta name="description"
+        content="The portfolio platform for ambitious students. Showcase projects, share code, and get discovered by top companies.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar">
+        <div class="container flex items-center justify-between">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i data-lucide="layers"></i>
+                </div>
+                <span>ShowWork</span>
+            </a>
+
+            <div class="flex items-center gap-8 hide-mobile">
+                <a href="explore.html" class="nav-link">Explore</a>
+                <a href="categories.html" class="nav-link">Categories</a>
+                <a href="trending.html" class="nav-link">Trending</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="login.html" class="nav-link hide-mobile">Sign in</a>
+                <a href="register.html" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="dot"></span>
+                    <span>Join 10,000+ students</span>
+                </div>
+
+                <h1 class="text-display hero-title">
+                    Showcase your work<span class="accent-dot">.</span><br>
+                    Get discovered<span class="accent-dot">.</span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    The portfolio platform built for ambitious students. Share your projects, connect with recruiters,
+                    and land your dream role.
+                </p>
+
+                <div class="hero-cta">
+                    <a href="register.html" class="btn btn-primary">
+                        Start for free
+                        <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+                    </a>
+                    <a href="explore.html" class="btn btn-secondary">
+                        Explore projects
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="section" style="border-top: 1px solid var(--color-gray-900);">
+        <div class="container">
+            <div class="grid grid-4" style="text-align: center;">
+                <div class="stat-item fade-in">
+                    <p class="stat-number" data-count="10000" data-suffix="+">0</p>
+                    <p class="stat-label">Active Students</p>
+                </div>
+                <div class="stat-item fade-in">
+                    <p class="stat-number" data-count="25000" data-suffix="+">0</p>
+                    <p class="stat-label">Projects Shared</p>
+                </div>
+                <div class="stat-item fade-in">
+                    <p class="stat-number" data-count="500" data-suffix="+">0</p>
+                    <p class="stat-label">Partner Companies</p>
+                </div>
+                <div class="stat-item fade-in">
+                    <p class="stat-number" data-count="89" data-suffix="%">0</p>
+                    <p class="stat-label">Hire Rate</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header text-center" style="margin-left: auto; margin-right: auto;">
+                <p class="section-label">Features</p>
+                <h2 class="section-title">Everything you need to stand out</h2>
+                <p class="section-desc">Built for developers who ship. Designed for recruiters who hire.</p>
+            </div>
+
+            <div class="grid grid-3">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon accent">
+                        <i data-lucide="github"></i>
+                    </div>
+                    <h3 class="feature-title">GitHub Integration</h3>
+                    <p class="feature-desc">Connect your repositories. Auto-import your best work with a single click.
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i data-lucide="play"></i>
+                    </div>
+                    <h3 class="feature-title">Video Demos</h3>
+                    <p class="feature-desc">Show, don't tell. Upload 2-minute demos that showcase your projects in
+                        action.</p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i data-lucide="external-link"></i>
+                    </div>
+                    <h3 class="feature-title">Live Previews</h3>
+                    <p class="feature-desc">Let recruiters interact with your deployed apps. No downloads needed.</p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i data-lucide="bar-chart-2"></i>
+                    </div>
+                    <h3 class="feature-title">Analytics</h3>
+                    <p class="feature-desc">Track who's viewing your work. Understand what resonates with recruiters.
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i data-lucide="search"></i>
+                    </div>
+                    <h3 class="feature-title">Discovery</h3>
+                    <p class="feature-desc">Get found by recruiters searching for your exact skill set.</p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i data-lucide="link"></i>
+                    </div>
+                    <h3 class="feature-title">Custom URL</h3>
+                    <p class="feature-desc">Your personal showwork.dev/username. One link for your entire portfolio.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="section" style="background: var(--color-gray-950);">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-label">Categories</p>
+                <h2 class="section-title">Find your community</h2>
+                <p class="section-desc">Browse projects by specialization. Connect with peers in your field.</p>
+            </div>
+
+            <div class="grid grid-3">
+                <a href="explore.html?category=fullstack" class="category-card fade-in">
+                    <div class="category-icon">
+                        <i data-lucide="layers"></i>
+                    </div>
+                    <div>
+                        <p class="category-name">Full-Stack Developer</p>
+                        <p class="category-count">2,450 projects</p>
+                    </div>
+                </a>
+
+                <a href="explore.html?category=ml" class="category-card fade-in">
+                    <div class="category-icon">
+                        <i data-lucide="brain"></i>
+                    </div>
+                    <div>
+                        <p class="category-name">AI/ML Engineer</p>
+                        <p class="category-count">1,560 projects</p>
+                    </div>
+                </a>
+
+                <a href="explore.html?category=frontend" class="category-card fade-in">
+                    <div class="category-icon">
+                        <i data-lucide="layout"></i>
+                    </div>
+                    <div>
+                        <p class="category-name">Frontend Developer</p>
+                        <p class="category-count">3,120 projects</p>
+                    </div>
+                </a>
+
+                <a href="explore.html?category=backend" class="category-card fade-in">
+                    <div class="category-icon">
+                        <i data-lucide="server"></i>
+                    </div>
+                    <div>
+                        <p class="category-name">Backend Developer</p>
+                        <p class="category-count">1,890 projects</p>
+                    </div>
+                </a>
+
+                <a href="explore.html?category=mobile" class="category-card fade-in">
+                    <div class="category-icon">
+                        <i data-lucide="smartphone"></i>
+                    </div>
+                    <div>
+                        <p class="category-name">Mobile Developer</p>
+                        <p class="category-count">1,340 projects</p>
+                    </div>
+                </a>
+
+                <a href="categories.html" class="category-card fade-in" style="border-style: dashed;">
+                    <div class="category-icon">
+                        <i data-lucide="plus"></i>
+                    </div>
+                    <div>
+                        <p class="category-name">View All Categories</p>
+                        <p class="category-count">12 specializations</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header text-center" style="margin-left: auto; margin-right: auto;">
+                <p class="section-label">How it works</p>
+                <h2 class="section-title">Three steps to your dream job</h2>
+            </div>
+
+            <div class="grid grid-3" style="max-width: 900px; margin: 0 auto;">
+                <div class="text-center fade-in">
+                    <div
+                        style="width: 48px; height: 48px; background: var(--color-gray-900); border: 1px solid var(--color-gray-800); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-6); font-weight: 500; color: var(--color-accent);">
+                        1</div>
+                    <h3 class="feature-title">Create your profile</h3>
+                    <p class="feature-desc">Sign up in 30 seconds. Add your skills, education, and professional links.
+                    </p>
+                </div>
+
+                <div class="text-center fade-in">
+                    <div
+                        style="width: 48px; height: 48px; background: var(--color-gray-900); border: 1px solid var(--color-gray-800); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-6); font-weight: 500; color: var(--color-accent);">
+                        2</div>
+                    <h3 class="feature-title">Upload your projects</h3>
+                    <p class="feature-desc">Add descriptions, tech stack, demos, and GitHub links. Let your work speak.
+                    </p>
+                </div>
+
+                <div class="text-center fade-in">
+                    <div
+                        style="width: 48px; height: 48px; background: var(--color-gray-900); border: 1px solid var(--color-gray-800); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-6); font-weight: 500; color: var(--color-accent);">
+                        3</div>
+                    <h3 class="feature-title">Get discovered</h3>
+                    <p class="feature-desc">Recruiters find you through search, trending projects, and referrals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title fade-in">Ready to showcase your work<span class="accent-dot">?</span></h2>
+            <p class="cta-desc fade-in">Join thousands of students who've already landed their dream roles.</p>
+            <div class="fade-in">
+                <a href="register.html" class="btn btn-primary" style="padding: 16px 32px; font-size: 1rem;">
+                    Create your portfolio
+                    <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">
+                            <i data-lucide="layers"></i>
+                        </div>
+                        <span>ShowWork</span>
+                    </a>
+                    <p>The portfolio platform for ambitious students.</p>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="explore.html">Explore</a></li>
+                        <li><a href="categories.html">Categories</a></li>
+                        <li><a href="trending.html">Trending</a></li>
+                        <li><a href="#">For Recruiters</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 ShowWork. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="nav-link"><i data-lucide="twitter" style="width: 18px; height: 18px;"></i></a>
+                    <a href="#" class="nav-link"><i data-lucide="github" style="width: 18px; height: 18px;"></i></a>
+                    <a href="#" class="nav-link"><i data-lucide="linkedin" style="width: 18px; height: 18px;"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

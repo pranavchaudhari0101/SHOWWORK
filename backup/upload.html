@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Project - ShowWork</title>
+    <meta name="description" content="Add a new project to your ShowWork portfolio.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-slate-950 text-white min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800">
+        <div class="max-w-4xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="dashboard.html"
+                    class="flex items-center gap-3 text-slate-400 hover:text-white transition-colors">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    <span>Back to Dashboard</span>
+                </a>
+                <a href="index.html" class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center">
+                        <i data-lucide="layers" class="w-5 h-5 text-white"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-16">
+        <div class="max-w-4xl mx-auto px-6">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold mb-2">Upload New Project</h1>
+                <p class="text-slate-400">Showcase your work to the world</p>
+            </div>
+
+            <!-- Upload Form -->
+            <form id="upload-form" class="space-y-8">
+                <!-- Cover Image -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                        <i data-lucide="image" class="w-5 h-5 text-violet-400"></i>
+                        Cover Image
+                    </h2>
+                    <div id="cover-dropzone"
+                        class="border-2 border-dashed border-slate-700 rounded-xl p-8 text-center hover:border-violet-500/50 transition-colors cursor-pointer">
+                        <input type="file" id="cover-input" accept="image/*" class="hidden">
+                        <img id="cover-preview" class="hidden max-h-64 mx-auto rounded-lg mb-4">
+                        <div id="cover-placeholder">
+                            <i data-lucide="upload-cloud" class="w-12 h-12 text-slate-500 mx-auto mb-4"></i>
+                            <p class="text-slate-400 mb-2">Drop your cover image here or click to upload</p>
+                            <p class="text-sm text-slate-500">Recommended: 1200 x 630 pixels (PNG, JPG, WebP)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Info -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                        <i data-lucide="info" class="w-5 h-5 text-emerald-400"></i>
+                        Basic Information
+                    </h2>
+
+                    <div class="space-y-5">
+                        <div>
+                            <label for="title" class="form-label">Project Title *</label>
+                            <input type="text" id="title" name="title" required class="form-input"
+                                placeholder="e.g., AI Chat Application" maxlength="100">
+                            <p class="mt-1 text-xs text-slate-500 text-right"><span id="title-count">0</span>/100</p>
+                        </div>
+
+                        <div>
+                            <label for="short-desc" class="form-label">Short Description *</label>
+                            <textarea id="short-desc" name="shortDesc" required class="form-input resize-none" rows="2"
+                                placeholder="A brief one-liner about your project" maxlength="200"></textarea>
+                            <p class="mt-1 text-xs text-slate-500 text-right"><span id="short-desc-count">0</span>/200
+                            </p>
+                        </div>
+
+                        <div>
+                            <label for="full-desc" class="form-label">Full Description</label>
+                            <textarea id="full-desc" name="fullDesc" class="form-input resize-none" rows="6"
+                                placeholder="Detailed description of your project. Supports Markdown."
+                                maxlength="5000"></textarea>
+                            <p class="mt-1 text-xs text-slate-500">Supports Markdown formatting</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tech Stack -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                        <i data-lucide="code-2" class="w-5 h-5 text-cyan-400"></i>
+                        Tech Stack
+                    </h2>
+
+                    <div class="mb-4">
+                        <input type="text" id="tech-search" class="form-input"
+                            placeholder="Search and add technologies...">
+                    </div>
+
+                    <div id="selected-tech" class="flex flex-wrap gap-2 mb-4">
+                        <!-- Selected tech tags -->
+                    </div>
+
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button"
+                            class="tech-btn px-3 py-1.5 bg-slate-800 rounded-full text-sm text-slate-300 hover:bg-violet-500/20 hover:text-violet-300 transition-colors"
+                            data-tech="React">React</button>
+                        <button type="button"
+                            class="tech-btn px-3 py-1.5 bg-slate-800 rounded-full text-sm text-slate-300 hover:bg-violet-500/20 hover:text-violet-300 transition-colors"
+                            data-tech="Next.js">Next.js</button>
+                        <button type="button"
+                            class="tech-btn px-3 py-1.5 bg-slate-800 rounded-full text-sm text-slate-300 hover:bg-violet-500/20 hover:text-violet-300 transition-colors"
+                            data-tech="Vue.js">Vue.js</button>
+                        <button type="button"
+                            class="tech-btn px-3 py-1.5 bg-slate-800 rounded-full text-sm text-slate-300 hover:bg-violet-500/20 hover:text-violet-300 transition-colors"
+                            data-tech="Node.js">Node.js</button>
+                        <button type="button"
+                            class="tech-btn px-3 py-1.5 bg-slate-800 rounded-full text-sm text-slate-300 hover:bg-violet-500/20 hover:text-violet-300 transition-colors"
+                            data-tech="Python">Python</button>
+                        <button type="button"
+                            class="tech-btn px-3 py-1.5 bg-slate-800 rounded-full text-sm text-slate-300 hover:bg-violet-500/20 hover:text-violet-300 transition-colors"
+                            data-tech="Django">Django</button>
+                        <button type="button"
+                            class="tech-btn px-3 py-1.5 bg-slate-800 rounded-full text-sm text-slate-300 hover:bg-violet-500/20 hover:text-violet-300 transition-colors"
+                            data-tech="Flask">Flask</button>
+                        <button type="button"
+                            class="tech-btn px-3 py-1.5 bg-slate-800 rounded-full text-sm text-slate-300 hover:bg-violet-500/20 hover:text-violet-300 transition-colors"
+                            data-tech="TypeScript">TypeScript</button>
+                        <button type="button"
+                            class="tech-btn px-3 py-1.5 bg-slate-800 rounded-full text-sm text-slate-300 hover:bg-violet-500/20 hover:text-violet-300 transition-colors"
+                            data-tech="TailwindCSS">TailwindCSS</button>
+                        <button type="button"
+                            class="tech-btn px-3 py-1.5 bg-slate-800 rounded-full text-sm text-slate-300 hover:bg-violet-500/20 hover:text-violet-300 transition-colors"
+                            data-tech="PostgreSQL">PostgreSQL</button>
+                        <button type="button"
+                            class="tech-btn px-3 py-1.5 bg-slate-800 rounded-full text-sm text-slate-300 hover:bg-violet-500/20 hover:text-violet-300 transition-colors"
+                            data-tech="MongoDB">MongoDB</button>
+                        <button type="button"
+                            class="tech-btn px-3 py-1.5 bg-slate-800 rounded-full text-sm text-slate-300 hover:bg-violet-500/20 hover:text-violet-300 transition-colors"
+                            data-tech="Firebase">Firebase</button>
+                        <button type="button"
+                            class="tech-btn px-3 py-1.5 bg-slate-800 rounded-full text-sm text-slate-300 hover:bg-violet-500/20 hover:text-violet-300 transition-colors"
+                            data-tech="AWS">AWS</button>
+                        <button type="button"
+                            class="tech-btn px-3 py-1.5 bg-slate-800 rounded-full text-sm text-slate-300 hover:bg-violet-500/20 hover:text-violet-300 transition-colors"
+                            data-tech="Docker">Docker</button>
+                    </div>
+                </div>
+
+                <!-- Links -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                        <i data-lucide="link" class="w-5 h-5 text-pink-400"></i>
+                        Links
+                    </h2>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label for="github-url" class="form-label">GitHub Repository</label>
+                            <div class="relative">
+                                <i data-lucide="github"
+                                    class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
+                                <input type="url" id="github-url" name="githubUrl" class="form-input pl-12"
+                                    placeholder="https://github.com/username/repo">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="live-url" class="form-label">Live Demo URL</label>
+                            <div class="relative">
+                                <i data-lucide="external-link"
+                                    class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
+                                <input type="url" id="live-url" name="liveUrl" class="form-input pl-12"
+                                    placeholder="https://your-project.vercel.app">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Demo Video -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                        <i data-lucide="video" class="w-5 h-5 text-orange-400"></i>
+                        Demo Video
+                    </h2>
+
+                    <div id="video-dropzone"
+                        class="border-2 border-dashed border-slate-700 rounded-xl p-8 text-center hover:border-violet-500/50 transition-colors cursor-pointer">
+                        <input type="file" id="video-input" accept="video/*" class="hidden">
+                        <video id="video-preview" class="hidden max-h-64 mx-auto rounded-lg mb-4" controls></video>
+                        <div id="video-placeholder">
+                            <i data-lucide="film" class="w-12 h-12 text-slate-500 mx-auto mb-4"></i>
+                            <p class="text-slate-400 mb-2">Drop your demo video here or click to upload</p>
+                            <p class="text-sm text-slate-500">Max 2 minutes, 100MB (MP4, WebM)</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-center text-sm text-slate-500">
+                        Or paste a YouTube/Loom link:
+                    </div>
+                    <input type="url" id="video-url" name="videoUrl" class="form-input mt-2"
+                        placeholder="https://www.youtube.com/watch?v=...">
+                </div>
+
+                <!-- Project Settings -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                        <i data-lucide="settings" class="w-5 h-5 text-slate-400"></i>
+                        Settings
+                    </h2>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="project-type" class="form-label">Project Type</label>
+                            <select id="project-type" name="projectType"
+                                class="form-input appearance-none cursor-pointer">
+                                <option value="WEB_APP">Web Application</option>
+                                <option value="MOBILE_APP">Mobile App</option>
+                                <option value="ML_MODEL">ML/AI Model</option>
+                                <option value="CLI_TOOL">CLI Tool</option>
+                                <option value="API">API</option>
+                                <option value="GAME">Game</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="status" class="form-label">Status</label>
+                            <select id="status" name="status" class="form-input appearance-none cursor-pointer">
+                                <option value="COMPLETED">Completed</option>
+                                <option value="IN_PROGRESS">In Progress</option>
+                                <option value="ARCHIVED">Archived</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="visibility" class="form-label">Visibility</label>
+                            <select id="visibility" name="visibility" class="form-input appearance-none cursor-pointer">
+                                <option value="PUBLIC">Public - Visible to everyone</option>
+                                <option value="UNLISTED">Unlisted - Only with link</option>
+                                <option value="PRIVATE">Private - Only you</option>
+                            </select>
+                        </div>
+
+                        <div class="flex items-center gap-3 self-end pb-3">
+                            <input type="checkbox" id="featured" name="featured" class="form-checkbox">
+                            <label for="featured" class="text-slate-300 cursor-pointer">Feature on my profile</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="flex items-center justify-between pt-6 border-t border-slate-800">
+                    <button type="button" id="save-draft"
+                        class="px-6 py-3 bg-slate-800 border border-slate-700 rounded-xl font-medium hover:bg-slate-700 transition-colors">
+                        Save as Draft
+                    </button>
+                    <button type="submit"
+                        class="px-8 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-xl font-semibold hover:shadow-lg hover:shadow-violet-500/25 transition-all duration-300 flex items-center gap-2">
+                        <i data-lucide="upload" class="w-5 h-5"></i>
+                        Publish Project
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/main.js"></script>
+    <script src="js/supabase.js"></script>
+    <script>
+        // Selected tech stack
+        const selectedTech = new Set();
+
+        // Cover image upload
+        const coverDropzone = document.getElementById('cover-dropzone');
+        const coverInput = document.getElementById('cover-input');
+        const coverPreview = document.getElementById('cover-preview');
+        const coverPlaceholder = document.getElementById('cover-placeholder');
+
+        coverDropzone.addEventListener('click', () => coverInput.click());
+        coverDropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            coverDropzone.classList.add('border-violet-500');
+        });
+        coverDropzone.addEventListener('dragleave', () => {
+            coverDropzone.classList.remove('border-violet-500');
+        });
+        coverDropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            coverDropzone.classList.remove('border-violet-500');
+            if (e.dataTransfer.files[0]) {
+                coverInput.files = e.dataTransfer.files;
+                handleCoverUpload(e.dataTransfer.files[0]);
+            }
+        });
+        coverInput.addEventListener('change', (e) => {
+            if (e.target.files[0]) handleCoverUpload(e.target.files[0]);
+        });
+
+        function handleCoverUpload(file) {
+            if (!file.type.startsWith('image/')) {
+                ShowWork.showToast('Please select an image file', 'error');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                coverPreview.src = e.target.result;
+                coverPreview.classList.remove('hidden');
+                coverPlaceholder.classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Video upload
+        const videoDropzone = document.getElementById('video-dropzone');
+        const videoInput = document.getElementById('video-input');
+        const videoPreview = document.getElementById('video-preview');
+        const videoPlaceholder = document.getElementById('video-placeholder');
+
+        videoDropzone.addEventListener('click', () => videoInput.click());
+        videoInput.addEventListener('change', (e) => {
+            if (e.target.files[0]) handleVideoUpload(e.target.files[0]);
+        });
+
+        function handleVideoUpload(file) {
+            if (!file.type.startsWith('video/')) {
+                ShowWork.showToast('Please select a video file', 'error');
+                return;
+            }
+            if (file.size > 100 * 1024 * 1024) {
+                ShowWork.showToast('Video must be less than 100MB', 'error');
+                return;
+            }
+            const url = URL.createObjectURL(file);
+            videoPreview.src = url;
+            videoPreview.classList.remove('hidden');
+            videoPlaceholder.classList.add('hidden');
+        }
+
+        // Tech stack selection
+        document.querySelectorAll('.tech-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tech = btn.dataset.tech;
+                if (selectedTech.has(tech)) {
+                    selectedTech.delete(tech);
+                    btn.classList.remove('bg-violet-500/20', 'text-violet-300');
+                    btn.classList.add('bg-slate-800', 'text-slate-300');
+                } else {
+                    selectedTech.add(tech);
+                    btn.classList.add('bg-violet-500/20', 'text-violet-300');
+                    btn.classList.remove('bg-slate-800', 'text-slate-300');
+                }
+                updateSelectedTech();
+            });
+        });
+
+        function updateSelectedTech() {
+            const container = document.getElementById('selected-tech');
+            container.innerHTML = Array.from(selectedTech).map(tech => `
+                <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-violet-500/20 border border-violet-500/30 rounded-full text-sm text-violet-300">
+                    ${tech}
+                    <button type="button" onclick="removeTech('${tech}')" class="hover:text-white">
+                        <i data-lucide="x" class="w-3 h-3"></i>
+                    </button>
+                </span>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        window.removeTech = function (tech) {
+            selectedTech.delete(tech);
+            document.querySelector(`.tech-btn[data-tech="${tech}"]`)?.classList.remove('bg-violet-500/20', 'text-violet-300');
+            document.querySelector(`.tech-btn[data-tech="${tech}"]`)?.classList.add('bg-slate-800', 'text-slate-300');
+            updateSelectedTech();
+        };
+
+        // Character counters
+        document.getElementById('title').addEventListener('input', function () {
+            document.getElementById('title-count').textContent = this.value.length;
+        });
+        document.getElementById('short-desc').addEventListener('input', function () {
+            document.getElementById('short-desc-count').textContent = this.value.length;
+        });
+
+        // Form submission
+        document.getElementById('upload-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalContent = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Publishing...';
+            submitBtn.disabled = true;
+            lucide.createIcons();
+
+            try {
+                // Simulate upload
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                ShowWork.showToast('Project published successfully!', 'success');
+                window.location.href = 'dashboard-projects.html';
+            } catch (error) {
+                ShowWork.showToast(error.message || 'Failed to publish project', 'error');
+                submitBtn.innerHTML = originalContent;
+                submitBtn.disabled = false;
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+
+</html>

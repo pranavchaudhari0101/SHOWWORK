@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending Projects - ShowWork</title>
+    <meta name="description" content="Discover the most popular and trending projects this week on ShowWork.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-slate-950 text-white">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300">
+                        <i data-lucide="layers" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold">ShowWork</span>
+                </a>
+
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="explore.html" class="text-slate-400 hover:text-white transition-colors">Explore</a>
+                    <a href="categories.html" class="text-slate-400 hover:text-white transition-colors">Categories</a>
+                    <a href="trending.html" class="text-white font-medium">Trending</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="login.html" class="hidden sm:block text-slate-400 hover:text-white transition-colors">Sign
+                        In</a>
+                    <a href="register.html"
+                        class="px-5 py-2.5 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-xl font-medium">Get
+                        Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full mb-4">
+                    <i data-lucide="flame" class="w-5 h-5 text-orange-400"></i>
+                    <span class="text-orange-400 font-medium">Hot This Week</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Trending Projects</h1>
+                <p class="text-xl text-slate-400">Projects gaining momentum in the community</p>
+            </div>
+
+            <!-- Time Filter -->
+            <div class="flex justify-center gap-2 mb-8">
+                <button class="px-4 py-2 bg-violet-600 rounded-xl font-medium">This Week</button>
+                <button
+                    class="px-4 py-2 text-slate-400 hover:bg-slate-800 rounded-xl font-medium transition-colors">This
+                    Month</button>
+                <button class="px-4 py-2 text-slate-400 hover:bg-slate-800 rounded-xl font-medium transition-colors">All
+                    Time</button>
+            </div>
+
+            <!-- Top 3 Featured -->
+            <div class="grid lg:grid-cols-3 gap-6 mb-12">
+                <!-- #1 -->
+                <div class="lg:col-span-2 relative group">
+                    <div
+                        class="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center text-xl font-bold shadow-lg z-10">
+                        1
+                    </div>
+                    <article
+                        class="h-full bg-slate-900/80 border-2 border-amber-500/30 rounded-2xl overflow-hidden hover:border-amber-500/60 transition-all duration-300">
+                        <div
+                            class="aspect-video lg:aspect-[2.5/1] bg-gradient-to-br from-violet-500/20 via-fuchsia-500/20 to-pink-500/20 relative overflow-hidden">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i data-lucide="code-2" class="w-24 h-24 text-violet-400/30"></i>
+                            </div>
+                            <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+                                <div>
+                                    <h3 class="text-2xl font-bold mb-1">AI Code Assistant</h3>
+                                    <p class="text-slate-300">GPT-powered IDE extension with code completion</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span
+                                        class="px-3 py-1 bg-black/30 backdrop-blur-sm rounded-full text-sm">React</span>
+                                    <span
+                                        class="px-3 py-1 bg-black/30 backdrop-blur-sm rounded-full text-sm">OpenAI</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6 flex items-center justify-between">
+                            <a href="profile.html" class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-full flex items-center justify-center font-bold">
+                                    A</div>
+                                <span class="font-medium">Alex Martinez</span>
+                            </a>
+                            <div class="flex items-center gap-6 text-slate-400">
+                                <span class="flex items-center gap-2">
+                                    <i data-lucide="heart" class="w-5 h-5 text-pink-400"></i>
+                                    <span class="font-semibold text-white">1,847</span>
+                                </span>
+                                <span class="flex items-center gap-2">
+                                    <i data-lucide="eye" class="w-5 h-5"></i>
+                                    12.4k
+                                </span>
+                                <span class="flex items-center gap-2 text-emerald-400">
+                                    <i data-lucide="trending-up" class="w-5 h-5"></i>
+                                    +234%
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- #2 & #3 -->
+                <div class="space-y-6">
+                    <div class="relative group">
+                        <div
+                            class="absolute -top-3 -left-3 w-10 h-10 bg-gradient-to-br from-slate-300 to-slate-400 rounded-xl flex items-center justify-center text-lg font-bold text-slate-900 shadow-lg z-10">
+                            2
+                        </div>
+                        <article
+                            class="bg-slate-900/80 border border-slate-700 rounded-2xl overflow-hidden hover:border-slate-600 transition-all duration-300">
+                            <div
+                                class="aspect-video bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 flex items-center justify-center">
+                                <i data-lucide="bar-chart-3" class="w-12 h-12 text-emerald-400/50"></i>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-semibold mb-1">Real-time Analytics</h3>
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-slate-400">by Sarah Kim</span>
+                                    <span class="flex items-center gap-1 text-emerald-400">
+                                        <i data-lucide="trending-up" class="w-4 h-4"></i>
+                                        +189%
+                                    </span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="relative group">
+                        <div
+                            class="absolute -top-3 -left-3 w-10 h-10 bg-gradient-to-br from-amber-600 to-orange-600 rounded-xl flex items-center justify-center text-lg font-bold shadow-lg z-10">
+                            3
+                        </div>
+                        <article
+                            class="bg-slate-900/80 border border-slate-700 rounded-2xl overflow-hidden hover:border-slate-600 transition-all duration-300">
+                            <div
+                                class="aspect-video bg-gradient-to-br from-pink-500/20 to-rose-500/20 flex items-center justify-center">
+                                <i data-lucide="smartphone" class="w-12 h-12 text-pink-400/50"></i>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-semibold mb-1">Social Media App</h3>
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-slate-400">by James Wilson</span>
+                                    <span class="flex items-center gap-1 text-emerald-400">
+                                        <i data-lucide="trending-up" class="w-4 h-4"></i>
+                                        +156%
+                                    </span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rankings Table -->
+            <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-hidden">
+                <div class="p-6 border-b border-slate-800 flex items-center justify-between">
+                    <h2 class="text-xl font-semibold">Top 25 This Week</h2>
+                    <span class="text-sm text-slate-500">Updated hourly</span>
+                </div>
+
+                <div class="divide-y divide-slate-800">
+                    <!-- Rank 4 -->
+                    <a href="project.html" class="flex items-center gap-4 p-4 hover:bg-slate-800/30 transition-colors">
+                        <span class="w-8 text-center font-bold text-slate-500">4</span>
+                        <div
+                            class="w-16 h-12 bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-lg flex items-center justify-center">
+                            <i data-lucide="brain" class="w-6 h-6 text-blue-400/50"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium">ML Image Classifier</h3>
+                            <p class="text-sm text-slate-500">TensorFlow • Python</p>
+                        </div>
+                        <div class="hidden md:block text-sm text-slate-400">David Chen</div>
+                        <div class="flex items-center gap-4 text-sm">
+                            <span class="flex items-center gap-1 text-slate-400">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                                892
+                            </span>
+                            <span class="flex items-center gap-1 text-emerald-400">
+                                <i data-lucide="trending-up" class="w-4 h-4"></i>
+                                +98%
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- Rank 5 -->
+                    <a href="project.html" class="flex items-center gap-4 p-4 hover:bg-slate-800/30 transition-colors">
+                        <span class="w-8 text-center font-bold text-slate-500">5</span>
+                        <div
+                            class="w-16 h-12 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-lg flex items-center justify-center">
+                            <i data-lucide="gamepad-2" class="w-6 h-6 text-orange-400/50"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium">Multiplayer Game Engine</h3>
+                            <p class="text-sm text-slate-500">TypeScript • WebGL</p>
+                        </div>
+                        <div class="hidden md:block text-sm text-slate-400">Emma Watson</div>
+                        <div class="flex items-center gap-4 text-sm">
+                            <span class="flex items-center gap-1 text-slate-400">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                                756
+                            </span>
+                            <span class="flex items-center gap-1 text-emerald-400">
+                                <i data-lucide="trending-up" class="w-4 h-4"></i>
+                                +87%
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- Rank 6 -->
+                    <a href="project.html" class="flex items-center gap-4 p-4 hover:bg-slate-800/30 transition-colors">
+                        <span class="w-8 text-center font-bold text-slate-500">6</span>
+                        <div
+                            class="w-16 h-12 bg-gradient-to-br from-cyan-500/20 to-teal-500/20 rounded-lg flex items-center justify-center">
+                            <i data-lucide="cloud" class="w-6 h-6 text-cyan-400/50"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium">Serverless Deploy CLI</h3>
+                            <p class="text-sm text-slate-500">Go • Docker</p>
+                        </div>
+                        <div class="hidden md:block text-sm text-slate-400">Marcus Lee</div>
+                        <div class="flex items-center gap-4 text-sm">
+                            <span class="flex items-center gap-1 text-slate-400">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                                645
+                            </span>
+                            <span class="flex items-center gap-1 text-emerald-400">
+                                <i data-lucide="trending-up" class="w-4 h-4"></i>
+                                +72%
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- Rank 7 -->
+                    <a href="project.html" class="flex items-center gap-4 p-4 hover:bg-slate-800/30 transition-colors">
+                        <span class="w-8 text-center font-bold text-slate-500">7</span>
+                        <div
+                            class="w-16 h-12 bg-gradient-to-br from-purple-500/20 to-violet-500/20 rounded-lg flex items-center justify-center">
+                            <i data-lucide="lock" class="w-6 h-6 text-purple-400/50"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium">Password Manager</h3>
+                            <p class="text-sm text-slate-500">Rust • React</p>
+                        </div>
+                        <div class="hidden md:block text-sm text-slate-400">Aisha Patel</div>
+                        <div class="flex items-center gap-4 text-sm">
+                            <span class="flex items-center gap-1 text-slate-400">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                                589
+                            </span>
+                            <span class="flex items-center gap-1 text-emerald-400">
+                                <i data-lucide="trending-up" class="w-4 h-4"></i>
+                                +65%
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- Rank 8-10 -->
+                    <a href="project.html" class="flex items-center gap-4 p-4 hover:bg-slate-800/30 transition-colors">
+                        <span class="w-8 text-center font-bold text-slate-500">8</span>
+                        <div
+                            class="w-16 h-12 bg-gradient-to-br from-rose-500/20 to-pink-500/20 rounded-lg flex items-center justify-center">
+                            <i data-lucide="shopping-cart" class="w-6 h-6 text-rose-400/50"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium">E-Commerce Platform</h3>
+                            <p class="text-sm text-slate-500">Next.js • Stripe</p>
+                        </div>
+                        <div class="hidden md:block text-sm text-slate-400">John Doe</div>
+                        <div class="flex items-center gap-4 text-sm">
+                            <span class="flex items-center gap-1 text-slate-400">
+                                <i data-lucide="heart" class="w-4 h-4"></i>
+                                534
+                            </span>
+                            <span class="flex items-center gap-1 text-emerald-400">
+                                <i data-lucide="trending-up" class="w-4 h-4"></i>
+                                +58%
+                            </span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="p-4 text-center">
+                    <button class="text-violet-400 hover:text-violet-300 font-medium">View Full Rankings →</button>
+                </div>
+            </div>
+
+            <!-- Rising Stars Section -->
+            <section class="mt-16">
+                <div class="flex items-center gap-3 mb-6">
+                    <i data-lucide="rocket" class="w-6 h-6 text-fuchsia-400"></i>
+                    <h2 class="text-2xl font-bold">Rising Stars</h2>
+                    <span class="px-2 py-1 bg-fuchsia-500/10 text-fuchsia-400 text-sm rounded-full">New this week</span>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <article
+                        class="bg-slate-900/50 border border-slate-800 rounded-xl p-4 hover:border-fuchsia-500/50 transition-colors">
+                        <div
+                            class="aspect-video bg-gradient-to-br from-fuchsia-500/10 to-violet-500/10 rounded-lg mb-3 flex items-center justify-center">
+                            <i data-lucide="message-square" class="w-8 h-8 text-fuchsia-400/50"></i>
+                        </div>
+                        <h3 class="font-medium mb-1">Team Chat App</h3>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-slate-500">by newdev23</span>
+                            <span class="text-pink-400">♥ 89</span>
+                        </div>
+                    </article>
+
+                    <article
+                        class="bg-slate-900/50 border border-slate-800 rounded-xl p-4 hover:border-fuchsia-500/50 transition-colors">
+                        <div
+                            class="aspect-video bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 rounded-lg mb-3 flex items-center justify-center">
+                            <i data-lucide="leaf" class="w-8 h-8 text-emerald-400/50"></i>
+                        </div>
+                        <h3 class="font-medium mb-1">Carbon Tracker</h3>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-slate-500">by ecotech</span>
+                            <span class="text-pink-400">♥ 76</span>
+                        </div>
+                    </article>
+
+                    <article
+                        class="bg-slate-900/50 border border-slate-800 rounded-xl p-4 hover:border-fuchsia-500/50 transition-colors">
+                        <div
+                            class="aspect-video bg-gradient-to-br from-amber-500/10 to-orange-500/10 rounded-lg mb-3 flex items-center justify-center">
+                            <i data-lucide="music" class="w-8 h-8 text-amber-400/50"></i>
+                        </div>
+                        <h3 class="font-medium mb-1">Music Visualizer</h3>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-slate-500">by audiodev</span>
+                            <span class="text-pink-400">♥ 64</span>
+                        </div>
+                    </article>
+
+                    <article
+                        class="bg-slate-900/50 border border-slate-800 rounded-xl p-4 hover:border-fuchsia-500/50 transition-colors">
+                        <div
+                            class="aspect-video bg-gradient-to-br from-blue-500/10 to-indigo-500/10 rounded-lg mb-3 flex items-center justify-center">
+                            <i data-lucide="calendar" class="w-8 h-8 text-blue-400/50"></i>
+                        </div>
+                        <h3 class="font-medium mb-1">Schedule Planner</h3>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-slate-500">by productivo</span>
+                            <span class="text-pink-400">♥ 52</span>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-8 h-8 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-lg flex items-center justify-center">
+                        <i data-lucide="layers" class="w-4 h-4 text-white"></i>
+                    </div>
+                    <span class="text-slate-400">© 2026 ShowWork</span>
+                </div>
+                <div class="flex gap-6 text-sm text-slate-500">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        gsap.from('.relative', {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: 'power3.out'
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Categories - ShowWork</title>
+    <meta name="description"
+        content="Explore projects by professional category. Find developers, designers, data scientists and more.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-slate-950 text-white">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300">
+                        <i data-lucide="layers" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold">ShowWork</span>
+                </a>
+
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="explore.html" class="text-slate-400 hover:text-white transition-colors">Explore</a>
+                    <a href="categories.html" class="text-white font-medium">Categories</a>
+                    <a href="trending.html" class="text-slate-400 hover:text-white transition-colors">Trending</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="login.html" class="hidden sm:block text-slate-400 hover:text-white transition-colors">Sign
+                        In</a>
+                    <a href="register.html"
+                        class="px-5 py-2.5 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-xl font-medium">Get
+                        Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Browse by Category</h1>
+                <p class="text-xl text-slate-400 max-w-2xl mx-auto">Discover talented students and their projects across
+                    different professional domains.</p>
+            </div>
+
+            <!-- Categories Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Full-Stack Developer -->
+                <a href="explore.html?category=fullstack"
+                    class="category-card group p-8 bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl hover:border-violet-500/50 hover:bg-slate-800/50 transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="layers" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Full-Stack Developer</h2>
+                    <p class="text-slate-400 mb-4">End-to-end web applications with frontend and backend expertise.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-violet-400">2,450 projects</span>
+                        <i data-lucide="arrow-right"
+                            class="w-5 h-5 text-slate-500 group-hover:text-violet-400 group-hover:translate-x-1 transition-all"></i>
+                    </div>
+                </a>
+
+                <!-- Frontend Developer -->
+                <a href="explore.html?category=frontend"
+                    class="category-card group p-8 bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl hover:border-cyan-500/50 hover:bg-slate-800/50 transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="layout" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Frontend Developer</h2>
+                    <p class="text-slate-400 mb-4">Beautiful user interfaces with React, Vue, Angular, and modern CSS.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-cyan-400">3,120 projects</span>
+                        <i data-lucide="arrow-right"
+                            class="w-5 h-5 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all"></i>
+                    </div>
+                </a>
+
+                <!-- Backend Developer -->
+                <a href="explore.html?category=backend"
+                    class="category-card group p-8 bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-slate-800/50 transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-green-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="server" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Backend Developer</h2>
+                    <p class="text-slate-400 mb-4">APIs, databases, and server-side logic with Node, Python, Go.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-emerald-400">1,890 projects</span>
+                        <i data-lucide="arrow-right"
+                            class="w-5 h-5 text-slate-500 group-hover:text-emerald-400 group-hover:translate-x-1 transition-all"></i>
+                    </div>
+                </a>
+
+                <!-- AI/ML Engineer -->
+                <a href="explore.html?category=ml"
+                    class="category-card group p-8 bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl hover:border-fuchsia-500/50 hover:bg-slate-800/50 transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-fuchsia-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="brain" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">AI/ML Engineer</h2>
+                    <p class="text-slate-400 mb-4">Machine learning models, neural networks, and AI applications.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-fuchsia-400">1,560 projects</span>
+                        <i data-lucide="arrow-right"
+                            class="w-5 h-5 text-slate-500 group-hover:text-fuchsia-400 group-hover:translate-x-1 transition-all"></i>
+                    </div>
+                </a>
+
+                <!-- Data Scientist -->
+                <a href="explore.html?category=data-scientist"
+                    class="category-card group p-8 bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl hover:border-orange-500/50 hover:bg-slate-800/50 transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="line-chart" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Data Scientist</h2>
+                    <p class="text-slate-400 mb-4">Data analysis, visualization, and predictive modeling.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-orange-400">980 projects</span>
+                        <i data-lucide="arrow-right"
+                            class="w-5 h-5 text-slate-500 group-hover:text-orange-400 group-hover:translate-x-1 transition-all"></i>
+                    </div>
+                </a>
+
+                <!-- Data Analyst -->
+                <a href="explore.html?category=data-analyst"
+                    class="category-card group p-8 bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl hover:border-amber-500/50 hover:bg-slate-800/50 transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="bar-chart" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Data Analyst</h2>
+                    <p class="text-slate-400 mb-4">Business intelligence, SQL, and data-driven insights.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-amber-400">750 projects</span>
+                        <i data-lucide="arrow-right"
+                            class="w-5 h-5 text-slate-500 group-hover:text-amber-400 group-hover:translate-x-1 transition-all"></i>
+                    </div>
+                </a>
+
+                <!-- DevOps Engineer -->
+                <a href="explore.html?category=devops"
+                    class="category-card group p-8 bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl hover:border-blue-500/50 hover:bg-slate-800/50 transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="git-branch" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">DevOps Engineer</h2>
+                    <p class="text-slate-400 mb-4">CI/CD pipelines, infrastructure as code, and automation.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-blue-400">720 projects</span>
+                        <i data-lucide="arrow-right"
+                            class="w-5 h-5 text-slate-500 group-hover:text-blue-400 group-hover:translate-x-1 transition-all"></i>
+                    </div>
+                </a>
+
+                <!-- Cloud Engineer -->
+                <a href="explore.html?category=cloud"
+                    class="category-card group p-8 bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl hover:border-sky-500/50 hover:bg-slate-800/50 transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-sky-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="cloud" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Cloud Engineer</h2>
+                    <p class="text-slate-400 mb-4">AWS, GCP, Azure cloud architectures and solutions.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sky-400">580 projects</span>
+                        <i data-lucide="arrow-right"
+                            class="w-5 h-5 text-slate-500 group-hover:text-sky-400 group-hover:translate-x-1 transition-all"></i>
+                    </div>
+                </a>
+
+                <!-- Mobile Developer -->
+                <a href="explore.html?category=mobile"
+                    class="category-card group p-8 bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl hover:border-pink-500/50 hover:bg-slate-800/50 transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="smartphone" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Mobile Developer</h2>
+                    <p class="text-slate-400 mb-4">iOS, Android, and cross-platform mobile applications.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-pink-400">1,340 projects</span>
+                        <i data-lucide="arrow-right"
+                            class="w-5 h-5 text-slate-500 group-hover:text-pink-400 group-hover:translate-x-1 transition-all"></i>
+                    </div>
+                </a>
+
+                <!-- UX/UI Designer -->
+                <a href="explore.html?category=design"
+                    class="category-card group p-8 bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl hover:border-rose-500/50 hover:bg-slate-800/50 transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-rose-500 to-red-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="figma" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">UX/UI Designer</h2>
+                    <p class="text-slate-400 mb-4">User experience design, prototyping, and design systems.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-rose-400">890 projects</span>
+                        <i data-lucide="arrow-right"
+                            class="w-5 h-5 text-slate-500 group-hover:text-rose-400 group-hover:translate-x-1 transition-all"></i>
+                    </div>
+                </a>
+
+                <!-- Cybersecurity -->
+                <a href="explore.html?category=security"
+                    class="category-card group p-8 bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl hover:border-red-500/50 hover:bg-slate-800/50 transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-red-500 to-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="shield" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Cybersecurity</h2>
+                    <p class="text-slate-400 mb-4">Security tools, penetration testing, and secure systems.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-red-400">450 projects</span>
+                        <i data-lucide="arrow-right"
+                            class="w-5 h-5 text-slate-500 group-hover:text-red-400 group-hover:translate-x-1 transition-all"></i>
+                    </div>
+                </a>
+
+                <!-- Game Developer -->
+                <a href="explore.html?category=game"
+                    class="category-card group p-8 bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl hover:border-purple-500/50 hover:bg-slate-800/50 transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-purple-500 to-violet-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="gamepad-2" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Game Developer</h2>
+                    <p class="text-slate-400 mb-4">Video games with Unity, Unreal, and game engines.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-purple-400">670 projects</span>
+                        <i data-lucide="arrow-right"
+                            class="w-5 h-5 text-slate-500 group-hover:text-purple-400 group-hover:translate-x-1 transition-all"></i>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-8 h-8 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-lg flex items-center justify-center">
+                        <i data-lucide="layers" class="w-4 h-4 text-white"></i>
+                    </div>
+                    <span class="text-slate-400">© 2026 ShowWork</span>
+                </div>
+                <div class="flex gap-6 text-sm text-slate-500">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
+                    <a href="#" class="hover:text-white transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.from('.category-card', {
+            y: 50,
+            opacity: 0,
+            duration: 0.6,
+            stagger: 0.08,
+            ease: 'power3.out',
+            scrollTrigger: {
+                trigger: '.grid',
+                start: 'top 80%'
+            }
+        });
+    </script>
+</body>
+
+</html>

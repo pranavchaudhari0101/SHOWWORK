@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat Application - ShowWork</title>
+    <meta name="description"
+        content="A real-time chat application powered by OpenAI's GPT-4 with context memory and multi-user support.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-slate-950 text-white">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300">
+                        <i data-lucide="layers" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span
+                        class="text-xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">ShowWork</span>
+                </a>
+
+                <div class="flex items-center gap-4">
+                    <a href="explore.html"
+                        class="hidden sm:block text-slate-400 hover:text-white transition-colors">Explore</a>
+                    <a href="login.html"
+                        class="px-5 py-2.5 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-xl font-medium hover:shadow-lg hover:shadow-violet-500/25 transition-all duration-300">
+                        Get Started
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-16">
+        <div class="max-w-6xl mx-auto px-6">
+            <!-- Breadcrumb -->
+            <nav class="mb-6">
+                <ol class="flex items-center gap-2 text-sm text-slate-500">
+                    <li><a href="explore.html" class="hover:text-white transition-colors">Explore</a></li>
+                    <li><i data-lucide="chevron-right" class="w-4 h-4"></i></li>
+                    <li><a href="explore.html?category=fullstack"
+                            class="hover:text-white transition-colors">Full-Stack</a></li>
+                    <li><i data-lucide="chevron-right" class="w-4 h-4"></i></li>
+                    <li class="text-slate-300">AI Chat Application</li>
+                </ol>
+            </nav>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Main Content -->
+                <div class="lg:col-span-2">
+                    <!-- Cover Image/Video -->
+                    <div
+                        class="aspect-video bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 rounded-2xl overflow-hidden mb-6 relative group">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i data-lucide="code-2" class="w-24 h-24 text-violet-400/30"></i>
+                        </div>
+
+                        <!-- Video Play Button (if has video) -->
+                        <button id="play-video"
+                            class="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div
+                                class="w-20 h-20 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center">
+                                <i data-lucide="play" class="w-8 h-8 text-white ml-1"></i>
+                            </div>
+                        </button>
+
+                        <!-- Trending Badge -->
+                        <div
+                            class="absolute top-4 left-4 px-3 py-1.5 bg-emerald-500/20 backdrop-blur-sm rounded-full text-sm text-emerald-400 flex items-center gap-2">
+                            <i data-lucide="trending-up" class="w-4 h-4"></i>
+                            Trending in Full-Stack
+                        </div>
+                    </div>
+
+                    <!-- Title & Actions -->
+                    <div class="flex items-start justify-between gap-4 mb-6">
+                        <div>
+                            <h1 class="text-3xl font-bold mb-2">AI Chat Application</h1>
+                            <p class="text-slate-400">A real-time chat application powered by OpenAI's GPT-4 with
+                                context memory and multi-user support.</p>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button onclick="ShowWork.toggleLike('1', this)"
+                                class="p-3 bg-slate-800 border border-slate-700 rounded-xl hover:bg-pink-500/20 hover:border-pink-500/50 transition-colors"
+                                title="Like">
+                                <i data-lucide="heart" class="w-5 h-5"></i>
+                            </button>
+                            <button onclick="ShowWork.toggleSave('1', this)"
+                                class="p-3 bg-slate-800 border border-slate-700 rounded-xl hover:bg-amber-500/20 hover:border-amber-500/50 transition-colors"
+                                title="Save">
+                                <i data-lucide="bookmark" class="w-5 h-5"></i>
+                            </button>
+                            <button onclick="ShowWork.shareLink(window.location.href, 'AI Chat Application')"
+                                class="p-3 bg-slate-800 border border-slate-700 rounded-xl hover:bg-slate-700 transition-colors"
+                                title="Share">
+                                <i data-lucide="share-2" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tech Stack -->
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <span
+                            class="px-4 py-2 bg-violet-500/10 border border-violet-500/20 rounded-xl text-violet-300 font-medium">React</span>
+                        <span
+                            class="px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-300 font-medium">Node.js</span>
+                        <span
+                            class="px-4 py-2 bg-cyan-500/10 border border-cyan-500/20 rounded-xl text-cyan-300 font-medium">TypeScript</span>
+                        <span
+                            class="px-4 py-2 bg-pink-500/10 border border-pink-500/20 rounded-xl text-pink-300 font-medium">OpenAI</span>
+                        <span
+                            class="px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-xl text-orange-300 font-medium">Socket.io</span>
+                        <span
+                            class="px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-300 font-medium">PostgreSQL</span>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="prose prose-invert max-w-none mb-8">
+                        <h2 class="text-xl font-semibold mb-4">About This Project</h2>
+                        <div class="text-slate-300 space-y-4">
+                            <p>
+                                This AI Chat Application is a modern, real-time conversational interface built with
+                                cutting-edge technologies.
+                                It leverages OpenAI's GPT-4 model to provide intelligent, context-aware responses in a
+                                multi-user environment.
+                            </p>
+
+                            <h3 class="text-lg font-semibold text-white mt-6 mb-3">Key Features</h3>
+                            <ul class="list-disc pl-6 space-y-2">
+                                <li>Real-time messaging with WebSocket support</li>
+                                <li>Context memory - the AI remembers previous conversations</li>
+                                <li>Multi-user chat rooms with presence indicators</li>
+                                <li>Message history with infinite scroll</li>
+                                <li>Code syntax highlighting in messages</li>
+                                <li>Dark/light theme support</li>
+                                <li>Mobile-responsive design</li>
+                            </ul>
+
+                            <h3 class="text-lg font-semibold text-white mt-6 mb-3">Technical Highlights</h3>
+                            <ul class="list-disc pl-6 space-y-2">
+                                <li>Built with React 18 using Server Components</li>
+                                <li>Real-time updates via Socket.io</li>
+                                <li>PostgreSQL for persistent storage with Prisma ORM</li>
+                                <li>Redis for caching and rate limiting</li>
+                                <li>JWT-based authentication with refresh tokens</li>
+                                <li>Deployed on Vercel with Edge Functions</li>
+                            </ul>
+
+                            <h3 class="text-lg font-semibold text-white mt-6 mb-3">Challenges & Solutions</h3>
+                            <p>
+                                One of the main challenges was implementing efficient context management for the AI.
+                                To solve this, I implemented a sliding window approach that maintains the most recent
+                                messages while summarizing older context, reducing API costs while preserving
+                                conversation quality.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Gallery -->
+                    <div class="mb-8">
+                        <h2 class="text-xl font-semibold mb-4">Screenshots</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="aspect-video bg-slate-800 rounded-xl flex items-center justify-center">
+                                <i data-lucide="image" class="w-8 h-8 text-slate-600"></i>
+                            </div>
+                            <div class="aspect-video bg-slate-800 rounded-xl flex items-center justify-center">
+                                <i data-lucide="image" class="w-8 h-8 text-slate-600"></i>
+                            </div>
+                            <div class="aspect-video bg-slate-800 rounded-xl flex items-center justify-center">
+                                <i data-lucide="image" class="w-8 h-8 text-slate-600"></i>
+                            </div>
+                            <div class="aspect-video bg-slate-800 rounded-xl flex items-center justify-center">
+                                <i data-lucide="image" class="w-8 h-8 text-slate-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <!-- Author Card -->
+                    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 mb-6 sticky top-24">
+                        <div class="flex items-center gap-4 mb-4">
+                            <a href="profile.html?user=johndoe"
+                                class="w-14 h-14 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center text-xl font-bold">
+                                JD
+                            </a>
+                            <div>
+                                <a href="profile.html?user=johndoe"
+                                    class="font-semibold hover:text-violet-400 transition-colors">John Doe</a>
+                                <p class="text-sm text-slate-500">Full-Stack Developer</p>
+                            </div>
+                        </div>
+                        <a href="profile.html?user=johndoe"
+                            class="block w-full py-2.5 text-center bg-slate-800 border border-slate-700 rounded-xl font-medium hover:bg-slate-700 transition-colors">
+                            View Profile
+                        </a>
+                    </div>
+
+                    <!-- Links -->
+                    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 mb-6">
+                        <h3 class="font-semibold mb-4">Project Links</h3>
+                        <div class="space-y-3">
+                            <a href="https://github.com/johndoe/ai-chat" target="_blank"
+                                class="flex items-center gap-3 p-3 bg-slate-800/50 rounded-xl hover:bg-slate-800 transition-colors group">
+                                <i data-lucide="github" class="w-5 h-5 text-slate-400"></i>
+                                <span class="flex-1">View on GitHub</span>
+                                <i data-lucide="external-link"
+                                    class="w-4 h-4 text-slate-500 group-hover:text-white transition-colors"></i>
+                            </a>
+                            <a href="https://ai-chat-demo.vercel.app" target="_blank"
+                                class="flex items-center gap-3 p-3 bg-violet-500/10 border border-violet-500/20 rounded-xl hover:bg-violet-500/20 transition-colors group">
+                                <i data-lucide="play-circle" class="w-5 h-5 text-violet-400"></i>
+                                <span class="flex-1 text-violet-300">Live Demo</span>
+                                <i data-lucide="external-link"
+                                    class="w-4 h-4 text-violet-400 group-hover:text-white transition-colors"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 mb-6">
+                        <h3 class="font-semibold mb-4">Statistics</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-400 flex items-center gap-2">
+                                    <i data-lucide="eye" class="w-4 h-4"></i> Views
+                                </span>
+                                <span class="font-semibold">1,247</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-400 flex items-center gap-2">
+                                    <i data-lucide="heart" class="w-4 h-4"></i> Likes
+                                </span>
+                                <span class="font-semibold">234</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-400 flex items-center gap-2">
+                                    <i data-lucide="bookmark" class="w-4 h-4"></i> Saves
+                                </span>
+                                <span class="font-semibold">89</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-400 flex items-center gap-2">
+                                    <i data-lucide="calendar" class="w-4 h-4"></i> Published
+                                </span>
+                                <span class="font-semibold">Dec 15, 2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Info -->
+                    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
+                        <h3 class="font-semibold mb-4">Project Info</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-400">Type</span>
+                                <span class="px-3 py-1 bg-slate-800 rounded-full text-sm">Web App</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-400">Status</span>
+                                <span
+                                    class="px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-sm">Completed</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-400">Role</span>
+                                <span class="px-3 py-1 bg-slate-800 rounded-full text-sm">Solo Developer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Projects -->
+            <section class="mt-16">
+                <h2 class="text-2xl font-bold mb-6">More from John Doe</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <article
+                        class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden hover:border-emerald-500/50 transition-all duration-300">
+                        <div
+                            class="aspect-video bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 flex items-center justify-center">
+                            <i data-lucide="bar-chart-3" class="w-12 h-12 text-emerald-400/50"></i>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-1">Analytics Dashboard</h3>
+                            <p class="text-sm text-slate-400">Next.js • D3.js • TypeScript</p>
+                        </div>
+                    </article>
+                    <article
+                        class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden hover:border-orange-500/50 transition-all duration-300">
+                        <div
+                            class="aspect-video bg-gradient-to-br from-orange-500/20 to-red-500/20 flex items-center justify-center">
+                            <i data-lucide="smartphone" class="w-12 h-12 text-orange-400/50"></i>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-1">Fitness Tracker App</h3>
+                            <p class="text-sm text-slate-400">React Native • Firebase</p>
+                        </div>
+                    </article>
+                    <article
+                        class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden hover:border-pink-500/50 transition-all duration-300">
+                        <div
+                            class="aspect-video bg-gradient-to-br from-pink-500/20 to-rose-500/20 flex items-center justify-center">
+                            <i data-lucide="shopping-cart" class="w-12 h-12 text-pink-400/50"></i>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-1">E-Commerce Platform</h3>
+                            <p class="text-sm text-slate-400">Next.js • Stripe • Prisma</p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-8 h-8 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-lg flex items-center justify-center">
+                        <i data-lucide="layers" class="w-4 h-4 text-white"></i>
+                    </div>
+                    <span class="text-slate-400">© 2026 ShowWork</span>
+                </div>
+                <div class="flex gap-6 text-sm text-slate-500">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Video Modal -->
+    <div id="video-modal" class="modal-overlay">
+        <div class="modal-content max-w-4xl p-0 bg-black rounded-2xl overflow-hidden">
+            <div class="flex items-center justify-between p-4 border-b border-slate-800">
+                <h3 class="font-semibold">Demo Video</h3>
+                <button onclick="closeModal('video-modal')" class="text-slate-400 hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="aspect-video bg-black">
+                <video id="demo-video" class="w-full h-full" controls>
+                    <source src="" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.getElementById('play-video')?.addEventListener('click', () => {
+            ShowWork.openModal('video-modal');
+        });
+    </script>
+</body>
+
+</html>

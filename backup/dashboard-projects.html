@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects - ShowWork</title>
+    <meta name="description" content="Manage your ShowWork projects.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-slate-950 text-white">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="hidden lg:flex flex-col w-64 bg-slate-900/50 border-r border-slate-800">
+            <div class="p-6">
+                <a href="index.html" class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center">
+                        <i data-lucide="layers" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold">ShowWork</span>
+                </a>
+            </div>
+
+            <nav class="flex-1 px-4 py-6">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="dashboard.html"
+                            class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-xl transition-colors">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="dashboard-projects.html"
+                            class="flex items-center gap-3 px-4 py-3 bg-violet-500/10 border border-violet-500/20 text-violet-400 rounded-xl">
+                            <i data-lucide="folder" class="w-5 h-5"></i>
+                            My Projects
+                        </a>
+                    </li>
+                    <li>
+                        <a href="dashboard-analytics.html"
+                            class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-xl transition-colors">
+                            <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
+                            Analytics
+                        </a>
+                    </li>
+                    <li>
+                        <a href="dashboard-saved.html"
+                            class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-xl transition-colors">
+                            <i data-lucide="bookmark" class="w-5 h-5"></i>
+                            Saved Projects
+                        </a>
+                    </li>
+                    <li>
+                        <a href="dashboard-settings.html"
+                            class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-xl transition-colors">
+                            <i data-lucide="settings" class="w-5 h-5"></i>
+                            Settings
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="p-4 border-t border-slate-800">
+                <div class="flex items-center gap-3 px-4 py-3">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-full flex items-center justify-center text-sm font-bold">
+                        JD</div>
+                    <div class="flex-1 min-w-0">
+                        <p class="font-medium truncate">John Doe</p>
+                        <p class="text-sm text-slate-500 truncate">@johndoe</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1">
+            <header class="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <h1 class="text-2xl font-bold">My Projects</h1>
+                    <a href="upload.html"
+                        class="px-4 py-2.5 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-xl font-medium hover:shadow-lg hover:shadow-violet-500/25 transition-all duration-300 flex items-center gap-2">
+                        <i data-lucide="plus" class="w-5 h-5"></i>
+                        New Project
+                    </a>
+                </div>
+            </header>
+
+            <div class="p-6">
+                <!-- Filter/Sort Bar -->
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <div class="flex bg-slate-800/50 border border-slate-700 rounded-xl p-1">
+                        <button class="px-4 py-2 bg-violet-600 rounded-lg text-sm font-medium">All (6)</button>
+                        <button
+                            class="px-4 py-2 text-slate-400 hover:text-white text-sm font-medium transition-colors">Published
+                            (4)</button>
+                        <button
+                            class="px-4 py-2 text-slate-400 hover:text-white text-sm font-medium transition-colors">Drafts
+                            (2)</button>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <select
+                            class="px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-xl text-sm focus:outline-none focus:border-violet-500">
+                            <option>Newest First</option>
+                            <option>Most Views</option>
+                            <option>Most Likes</option>
+                            <option>Alphabetical</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Projects Grid -->
+                <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <!-- Project Card 1 -->
+                    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-hidden group">
+                        <div class="aspect-video bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 relative">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i data-lucide="code-2" class="w-12 h-12 text-violet-400/50"></i>
+                            </div>
+                            <div
+                                class="absolute top-3 right-3 px-2 py-1 bg-emerald-500/20 backdrop-blur-sm rounded-full text-xs text-emerald-400">
+                                Published
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-1">AI Chat Application</h3>
+                            <p class="text-sm text-slate-500 mb-4">Updated 2 hours ago</p>
+
+                            <div class="flex items-center justify-between text-sm text-slate-500 mb-4">
+                                <span class="flex items-center gap-1"><i data-lucide="eye" class="w-4 h-4"></i>
+                                    1,247</span>
+                                <span class="flex items-center gap-1"><i data-lucide="heart" class="w-4 h-4"></i>
+                                    234</span>
+                                <span class="flex items-center gap-1"><i data-lucide="bookmark" class="w-4 h-4"></i>
+                                    89</span>
+                            </div>
+
+                            <div class="flex gap-2">
+                                <a href="upload.html?edit=1"
+                                    class="flex-1 text-center py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm font-medium transition-colors">
+                                    Edit
+                                </a>
+                                <a href="project.html?id=1"
+                                    class="flex-1 text-center py-2 bg-violet-600 hover:bg-violet-500 rounded-lg text-sm font-medium transition-colors">
+                                    View
+                                </a>
+                                <button
+                                    class="p-2 bg-slate-800 hover:bg-red-600/20 hover:text-red-400 rounded-lg transition-colors"
+                                    title="Delete">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 2 -->
+                    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-hidden group">
+                        <div class="aspect-video bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 relative">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i data-lucide="bar-chart-3" class="w-12 h-12 text-emerald-400/50"></i>
+                            </div>
+                            <div
+                                class="absolute top-3 right-3 px-2 py-1 bg-emerald-500/20 backdrop-blur-sm rounded-full text-xs text-emerald-400">
+                                Published
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-1">Analytics Dashboard</h3>
+                            <p class="text-sm text-slate-500 mb-4">Updated 1 day ago</p>
+
+                            <div class="flex items-center justify-between text-sm text-slate-500 mb-4">
+                                <span class="flex items-center gap-1"><i data-lucide="eye" class="w-4 h-4"></i>
+                                    980</span>
+                                <span class="flex items-center gap-1"><i data-lucide="heart" class="w-4 h-4"></i>
+                                    189</span>
+                                <span class="flex items-center gap-1"><i data-lucide="bookmark" class="w-4 h-4"></i>
+                                    67</span>
+                            </div>
+
+                            <div class="flex gap-2">
+                                <a href="upload.html?edit=2"
+                                    class="flex-1 text-center py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm font-medium transition-colors">
+                                    Edit
+                                </a>
+                                <a href="project.html?id=2"
+                                    class="flex-1 text-center py-2 bg-violet-600 hover:bg-violet-500 rounded-lg text-sm font-medium transition-colors">
+                                    View
+                                </a>
+                                <button
+                                    class="p-2 bg-slate-800 hover:bg-red-600/20 hover:text-red-400 rounded-lg transition-colors"
+                                    title="Delete">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 3 - Draft -->
+                    <div class="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-hidden group">
+                        <div class="aspect-video bg-gradient-to-br from-orange-500/20 to-red-500/20 relative">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i data-lucide="smartphone" class="w-12 h-12 text-orange-400/50"></i>
+                            </div>
+                            <div
+                                class="absolute top-3 right-3 px-2 py-1 bg-amber-500/20 backdrop-blur-sm rounded-full text-xs text-amber-400">
+                                Draft
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-1">Fitness Tracker App</h3>
+                            <p class="text-sm text-slate-500 mb-4">Updated 3 days ago</p>
+
+                            <div class="flex items-center justify-between text-sm text-slate-500 mb-4">
+                                <span class="text-amber-400">Not published</span>
+                            </div>
+
+                            <div class="flex gap-2">
+                                <a href="upload.html?edit=3"
+                                    class="flex-1 text-center py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm font-medium transition-colors">
+                                    Edit
+                                </a>
+                                <button
+                                    class="flex-1 text-center py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-sm font-medium transition-colors">
+                                    Publish
+                                </button>
+                                <button
+                                    class="p-2 bg-slate-800 hover:bg-red-600/20 hover:text-red-400 rounded-lg transition-colors"
+                                    title="Delete">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add New Card -->
+                    <a href="upload.html"
+                        class="h-full min-h-[300px] border-2 border-dashed border-slate-800 rounded-2xl flex flex-col items-center justify-center gap-4 hover:border-violet-500/50 hover:bg-slate-900/30 transition-all duration-300 group">
+                        <div
+                            class="w-16 h-16 bg-slate-800 group-hover:bg-violet-500/20 rounded-2xl flex items-center justify-center transition-colors">
+                            <i data-lucide="plus"
+                                class="w-8 h-8 text-slate-500 group-hover:text-violet-400 transition-colors"></i>
+                        </div>
+                        <span class="text-slate-500 group-hover:text-violet-400 font-medium transition-colors">Add New
+                            Project</span>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        gsap.from('.grid > *', {
+            y: 30,
+            opacity: 0,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: 'power3.out'
+        });
+    </script>
+</body>
+
+</html>

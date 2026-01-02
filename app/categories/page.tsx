@@ -1,0 +1,91 @@
+import Link from 'next/link'
+import Image from 'next/image'
+import { Layers, Brain, Layout, Server, Smartphone, Database, Cloud, Palette, Shield, Cpu, Globe, Code2 } from 'lucide-react'
+
+const categories = [
+    { slug: 'fullstack', name: 'Full-Stack Developer', icon: Layers, count: 2450, desc: 'End-to-end web applications' },
+    { slug: 'frontend', name: 'Frontend Developer', icon: Layout, count: 3120, desc: 'User interfaces and experiences' },
+    { slug: 'backend', name: 'Backend Developer', icon: Server, count: 1890, desc: 'APIs and server architecture' },
+    { slug: 'ml', name: 'AI/ML Engineer', icon: Brain, count: 1560, desc: 'Machine learning and AI models' },
+    { slug: 'mobile', name: 'Mobile Developer', icon: Smartphone, count: 1340, desc: 'iOS and Android applications' },
+    { slug: 'data', name: 'Data Scientist', icon: Database, count: 980, desc: 'Data analysis and visualization' },
+    { slug: 'devops', name: 'DevOps Engineer', icon: Cloud, count: 720, desc: 'Infrastructure and deployment' },
+    { slug: 'design', name: 'UX/UI Designer', icon: Palette, count: 1100, desc: 'Design systems and prototypes' },
+    { slug: 'security', name: 'Security Engineer', icon: Shield, count: 450, desc: 'Security audits and penetration testing' },
+    { slug: 'embedded', name: 'Embedded Systems', icon: Cpu, count: 380, desc: 'Hardware and IoT projects' },
+    { slug: 'web3', name: 'Web3 Developer', icon: Globe, count: 620, desc: 'Blockchain and decentralized apps' },
+    { slug: 'games', name: 'Game Developer', icon: Code2, count: 540, desc: 'Games and interactive media' },
+]
+
+export default function CategoriesPage() {
+    return (
+        <>
+            {/* Navigation */}
+            <nav className="navbar">
+                <div className="container flex items-center justify-between">
+                    <Link href="/" className="flex items-center gap-2">
+                        <Image src="/logo.png" alt="ShowWork" width={140} height={40} className="h-8 w-auto" />
+                    </Link>
+
+                    <div className="hidden md:flex items-center gap-8">
+                        <Link href="/explore" className="nav-link">Explore</Link>
+                        <Link href="/categories" className="nav-link text-white">Categories</Link>
+                        <Link href="/trending" className="nav-link">Trending</Link>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                        <Link href="/login" className="nav-link hidden md:block">Sign in</Link>
+                        <Link href="/register" className="btn btn-primary">Get Started</Link>
+                    </div>
+                </div>
+            </nav>
+
+            {/* Main Content */}
+            <main className="pt-24 pb-16">
+                <div className="container">
+                    {/* Header */}
+                    <div className="mb-12">
+                        <h1 className="text-headline mb-4">Categories</h1>
+                        <p className="text-lg text-gray-400">Browse projects by specialization</p>
+                    </div>
+
+                    {/* Categories Grid */}
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {categories.map((category) => {
+                            const Icon = category.icon
+                            return (
+                                <Link
+                                    key={category.slug}
+                                    href={`/explore?category=${category.slug}`}
+                                    className="category-card group"
+                                >
+                                    <div className="category-icon group-hover:border-gray-700 transition-colors">
+                                        <Icon className="w-6 h-6" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="font-medium mb-1">{category.name}</p>
+                                        <p className="text-sm text-gray-500 mb-1">{category.desc}</p>
+                                        <p className="text-xs text-gray-600">{category.count.toLocaleString()} projects</p>
+                                    </div>
+                                </Link>
+                            )
+                        })}
+                    </div>
+                </div>
+            </main>
+
+            {/* Footer */}
+            <footer className="footer">
+                <div className="container">
+                    <div className="flex flex-wrap items-center justify-between gap-4">
+                        <p className="text-sm text-gray-600">© 2026 ShowWork. All rights reserved.</p>
+                        <div className="flex gap-6">
+                            <Link href="#" className="nav-link">Privacy</Link>
+                            <Link href="#" className="nav-link">Terms</Link>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </>
+    )
+}

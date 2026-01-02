@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Doe - ShowWork</title>
+    <meta name="description"
+        content="Full-Stack Developer showcasing projects on ShowWork. React, Node.js, TypeScript specialist.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="John Doe - Full-Stack Developer">
+    <meta property="og:description" content="Full-Stack Developer showcasing projects on ShowWork">
+    <meta property="og:type" content="profile">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-slate-950 text-white">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300">
+                        <i data-lucide="layers" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span
+                        class="text-xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">ShowWork</span>
+                </a>
+
+                <div class="flex items-center gap-4">
+                    <a href="explore.html"
+                        class="hidden sm:block text-slate-400 hover:text-white transition-colors">Explore</a>
+                    <a href="login.html"
+                        class="px-5 py-2.5 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-xl font-medium hover:shadow-lg hover:shadow-violet-500/25 transition-all duration-300">
+                        Get Started
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Header -->
+    <header class="pt-20">
+        <!-- Banner -->
+        <div
+            class="h-48 md:h-64 bg-gradient-to-br from-violet-900/50 via-slate-900 to-fuchsia-900/50 relative overflow-hidden">
+            <div
+                class="absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.05)_1px,transparent_1px)] bg-[size:50px_50px]">
+            </div>
+        </div>
+
+        <!-- Profile Info -->
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="relative -mt-20 mb-8">
+                <div class="flex flex-col md:flex-row md:items-end gap-6">
+                    <!-- Avatar -->
+                    <div
+                        class="w-32 h-32 md:w-40 md:h-40 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-2xl flex items-center justify-center text-5xl font-bold border-4 border-slate-950 shadow-2xl">
+                        JD
+                    </div>
+
+                    <!-- Info -->
+                    <div class="flex-1">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <div>
+                                <h1 class="text-3xl font-bold mb-1">John Doe</h1>
+                                <p class="text-lg text-violet-400">Full-Stack Developer</p>
+                            </div>
+
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="ShowWork.shareLink(window.location.href, 'John Doe - ShowWork')"
+                                    class="px-5 py-2.5 bg-slate-800 border border-slate-700 rounded-xl font-medium hover:bg-slate-700 transition-colors flex items-center gap-2">
+                                    <i data-lucide="share-2" class="w-4 h-4"></i>
+                                    Share
+                                </button>
+                                <a href="mailto:john@example.com"
+                                    class="px-5 py-2.5 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-xl font-medium hover:shadow-lg hover:shadow-violet-500/25 transition-all duration-300 flex items-center gap-2">
+                                    <i data-lucide="mail" class="w-4 h-4"></i>
+                                    Contact
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bio & Meta -->
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div class="md:col-span-2">
+                    <p class="text-slate-300 text-lg leading-relaxed mb-6">
+                        Passionate full-stack developer with 3+ years of experience building scalable web applications.
+                        Currently studying Computer Science at Stanford University. Love working with React, Node.js,
+                        and TypeScript.
+                    </p>
+
+                    <!-- Skills -->
+                    <div class="flex flex-wrap gap-2">
+                        <span
+                            class="px-3 py-1.5 bg-violet-500/10 border border-violet-500/20 rounded-full text-sm text-violet-300">React</span>
+                        <span
+                            class="px-3 py-1.5 bg-violet-500/10 border border-violet-500/20 rounded-full text-sm text-violet-300">Node.js</span>
+                        <span
+                            class="px-3 py-1.5 bg-violet-500/10 border border-violet-500/20 rounded-full text-sm text-violet-300">TypeScript</span>
+                        <span
+                            class="px-3 py-1.5 bg-violet-500/10 border border-violet-500/20 rounded-full text-sm text-violet-300">Next.js</span>
+                        <span
+                            class="px-3 py-1.5 bg-violet-500/10 border border-violet-500/20 rounded-full text-sm text-violet-300">PostgreSQL</span>
+                        <span
+                            class="px-3 py-1.5 bg-violet-500/10 border border-violet-500/20 rounded-full text-sm text-violet-300">GraphQL</span>
+                        <span
+                            class="px-3 py-1.5 bg-violet-500/10 border border-violet-500/20 rounded-full text-sm text-violet-300">AWS</span>
+                        <span
+                            class="px-3 py-1.5 bg-violet-500/10 border border-violet-500/20 rounded-full text-sm text-violet-300">Docker</span>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Location -->
+                    <div class="flex items-center gap-3 text-slate-400">
+                        <i data-lucide="map-pin" class="w-5 h-5"></i>
+                        <span>San Francisco, CA</span>
+                    </div>
+
+                    <!-- University -->
+                    <div class="flex items-center gap-3 text-slate-400">
+                        <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                        <span>Stanford University, 2025</span>
+                    </div>
+
+                    <!-- Open to work -->
+                    <div
+                        class="flex items-center gap-2 px-3 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                        <span class="text-emerald-400 text-sm font-medium">Open to opportunities</span>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="flex gap-3 pt-2">
+                        <a href="https://github.com/johndoe" target="_blank"
+                            class="w-10 h-10 bg-slate-800 hover:bg-slate-700 rounded-xl flex items-center justify-center transition-colors"
+                            title="GitHub">
+                            <i data-lucide="github" class="w-5 h-5 text-slate-400"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/johndoe" target="_blank"
+                            class="w-10 h-10 bg-slate-800 hover:bg-slate-700 rounded-xl flex items-center justify-center transition-colors"
+                            title="LinkedIn">
+                            <i data-lucide="linkedin" class="w-5 h-5 text-slate-400"></i>
+                        </a>
+                        <a href="https://johndoe.dev" target="_blank"
+                            class="w-10 h-10 bg-slate-800 hover:bg-slate-700 rounded-xl flex items-center justify-center transition-colors"
+                            title="Website">
+                            <i data-lucide="globe" class="w-5 h-5 text-slate-400"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 bg-slate-800 hover:bg-slate-700 rounded-xl flex items-center justify-center transition-colors"
+                            title="Resume">
+                            <i data-lucide="file-text" class="w-5 h-5 text-slate-400"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div
+                class="grid grid-cols-3 md:grid-cols-6 gap-4 mb-8 p-4 bg-slate-900/50 border border-slate-800 rounded-2xl">
+                <div class="text-center">
+                    <p class="text-2xl font-bold text-violet-400">6</p>
+                    <p class="text-sm text-slate-500">Projects</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-2xl font-bold text-pink-400">1,247</p>
+                    <p class="text-sm text-slate-500">Likes</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-2xl font-bold text-cyan-400">5.8k</p>
+                    <p class="text-sm text-slate-500">Views</p>
+                </div>
+                <div class="text-center hidden md:block">
+                    <p class="text-2xl font-bold text-emerald-400">342</p>
+                    <p class="text-sm text-slate-500">Saves</p>
+                </div>
+                <div class="text-center hidden md:block">
+                    <p class="text-2xl font-bold text-orange-400">89%</p>
+                    <p class="text-sm text-slate-500">Rating</p>
+                </div>
+                <div class="text-center hidden md:block">
+                    <p class="text-2xl font-bold text-amber-400">#12</p>
+                    <p class="text-sm text-slate-500">Ranking</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Projects Section -->
+    <main class="max-w-6xl mx-auto px-6 pb-16">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold">Projects</h2>
+            <div class="flex bg-slate-800/50 border border-slate-700 rounded-xl p-1">
+                <button class="px-4 py-2 bg-violet-600 rounded-lg text-sm font-medium">All</button>
+                <button
+                    class="px-4 py-2 text-slate-400 hover:text-white text-sm font-medium transition-colors">Featured</button>
+            </div>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Project 1 -->
+            <article
+                class="project-card group bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl overflow-hidden hover:border-violet-500/50 transition-all duration-300">
+                <a href="project.html?id=1" class="block">
+                    <div
+                        class="aspect-video bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 relative overflow-hidden">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i data-lucide="code-2" class="w-16 h-16 text-violet-400/50"></i>
+                        </div>
+                        <div
+                            class="absolute top-3 left-3 px-2 py-1 bg-amber-500/20 backdrop-blur-sm rounded-full text-xs text-amber-400 flex items-center gap-1">
+                            <i data-lucide="star" class="w-3 h-3"></i>
+                            Featured
+                        </div>
+                    </div>
+                </a>
+                <div class="p-5">
+                    <a href="project.html?id=1">
+                        <h3 class="font-semibold text-lg group-hover:text-violet-400 transition-colors mb-2">AI Chat
+                            Application</h3>
+                    </a>
+                    <p class="text-slate-400 text-sm mb-4 line-clamp-2">A real-time chat application powered by OpenAI's
+                        GPT-4 with context memory.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-2.5 py-1 bg-slate-800 rounded-full text-xs text-slate-300">React</span>
+                        <span class="px-2.5 py-1 bg-slate-800 rounded-full text-xs text-slate-300">Node.js</span>
+                        <span class="px-2.5 py-1 bg-slate-800 rounded-full text-xs text-slate-300">OpenAI</span>
+                    </div>
+                    <div class="flex items-center gap-4 text-sm text-slate-500">
+                        <span class="flex items-center gap-1"><i data-lucide="heart" class="w-4 h-4"></i> 234</span>
+                        <span class="flex items-center gap-1"><i data-lucide="eye" class="w-4 h-4"></i> 1.2k</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Project 2 -->
+            <article
+                class="project-card group bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl overflow-hidden hover:border-emerald-500/50 transition-all duration-300">
+                <a href="project.html?id=2" class="block">
+                    <div
+                        class="aspect-video bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 relative overflow-hidden">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i data-lucide="bar-chart-3" class="w-16 h-16 text-emerald-400/50"></i>
+                        </div>
+                    </div>
+                </a>
+                <div class="p-5">
+                    <a href="project.html?id=2">
+                        <h3 class="font-semibold text-lg group-hover:text-emerald-400 transition-colors mb-2">Analytics
+                            Dashboard</h3>
+                    </a>
+                    <p class="text-slate-400 text-sm mb-4 line-clamp-2">A comprehensive analytics dashboard with
+                        real-time data visualization.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-2.5 py-1 bg-slate-800 rounded-full text-xs text-slate-300">Next.js</span>
+                        <span class="px-2.5 py-1 bg-slate-800 rounded-full text-xs text-slate-300">D3.js</span>
+                    </div>
+                    <div class="flex items-center gap-4 text-sm text-slate-500">
+                        <span class="flex items-center gap-1"><i data-lucide="heart" class="w-4 h-4"></i> 189</span>
+                        <span class="flex items-center gap-1"><i data-lucide="eye" class="w-4 h-4"></i> 980</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Project 3 -->
+            <article
+                class="project-card group bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl overflow-hidden hover:border-orange-500/50 transition-all duration-300">
+                <a href="project.html?id=3" class="block">
+                    <div
+                        class="aspect-video bg-gradient-to-br from-orange-500/20 to-red-500/20 relative overflow-hidden">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i data-lucide="smartphone" class="w-16 h-16 text-orange-400/50"></i>
+                        </div>
+                    </div>
+                </a>
+                <div class="p-5">
+                    <a href="project.html?id=3">
+                        <h3 class="font-semibold text-lg group-hover:text-orange-400 transition-colors mb-2">Fitness
+                            Tracker App</h3>
+                    </a>
+                    <p class="text-slate-400 text-sm mb-4 line-clamp-2">A cross-platform mobile app for tracking
+                        workouts and nutrition.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-2.5 py-1 bg-slate-800 rounded-full text-xs text-slate-300">React Native</span>
+                        <span class="px-2.5 py-1 bg-slate-800 rounded-full text-xs text-slate-300">Firebase</span>
+                    </div>
+                    <div class="flex items-center gap-4 text-sm text-slate-500">
+                        <span class="flex items-center gap-1"><i data-lucide="heart" class="w-4 h-4"></i> 156</span>
+                        <span class="flex items-center gap-1"><i data-lucide="eye" class="w-4 h-4"></i> 756</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-8 h-8 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-lg flex items-center justify-center">
+                        <i data-lucide="layers" class="w-4 h-4 text-white"></i>
+                    </div>
+                    <span class="text-slate-400">ShowWork</span>
+                </div>
+                <p class="text-slate-500 text-sm">showwork.dev/johndoe</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate on load
+        gsap.from('.project-card', {
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: 'power3.out',
+            scrollTrigger: {
+                trigger: '.project-card',
+                start: 'top 85%'
+            }
+        });
+    </script>
+</body>
+
+</html>
