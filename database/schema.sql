@@ -184,12 +184,29 @@ CREATE TRIGGER projects_updated_at
 -- Create profile on user signup
 CREATE OR REPLACE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$
+DECLARE
+    cat_id UUID;
 BEGIN
-    INSERT INTO profiles (user_id, username, full_name)
+    -- Try to find the category ID if provided
+    IF NEW.raw_user_meta_data->>'category' IS NOT NULL THEN
+        SELECT id INTO cat_id FROM categories WHERE slug = NEW.raw_user_meta_data->>'category';
+    END IF;
+
+    INSERT INTO profiles (user_id, username, full_name, category_id)
     VALUES (
         NEW.id,
-        LOWER(REPLACE(COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.email), ' ', '')),
-        COALESCE(NEW.raw_user_meta_data->>'full_name', 'User')
+        -- Use provided username, or fallback to email prefix
+        COALESCE(
+            NEW.raw_user_meta_data->>'username',
+            SPLIT_PART(NEW.email, '@', 1)
+        ),
+        -- Use provided name, or fallback to 'User'
+        COALESCE(
+            NEW.raw_user_meta_data->>'name',
+            NEW.raw_user_meta_data->>'full_name',
+            'User'
+        ),
+        cat_id
     );
     RETURN NEW;
 END;
