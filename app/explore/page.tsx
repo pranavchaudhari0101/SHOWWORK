@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { Search, Heart, Eye, Code2, BarChart3, Smartphone, Brain, Cloud, Lock } from 'lucide-react'
+import Navbar from '@/components/Navbar'
 
 export default function ExplorePage() {
     const projects = [
@@ -15,25 +15,7 @@ export default function ExplorePage() {
     return (
         <>
             {/* Navigation */}
-            <nav className="navbar">
-                <div className="container flex items-center justify-between">
-                    <Link href="/" className="flex items-center gap-2">
-                        <Image src="/logo.png" alt="ShowWork" width={140} height={40} className="h-8 w-auto" />
-                    </Link>
-
-
-                    <div className="hidden md:flex items-center gap-8">
-                        <Link href="/explore" className="nav-link text-white">Explore</Link>
-                        <Link href="/categories" className="nav-link">Categories</Link>
-                        <Link href="/trending" className="nav-link">Trending</Link>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                        <Link href="/login" className="nav-link hidden md:block">Sign in</Link>
-                        <Link href="/register" className="btn btn-primary">Get Started</Link>
-                    </div>
-                </div>
-            </nav>
+            <Navbar />
 
             {/* Main Content */}
             <main className="pt-24 pb-16">

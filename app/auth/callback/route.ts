@@ -4,8 +4,9 @@ import { createClient } from '@/lib/supabase/server'
 export async function GET(request: Request) {
     const { searchParams, origin } = new URL(request.url)
     const code = searchParams.get('code')
+    const type = searchParams.get('type') // 'signup', 'recovery', 'magiclink', etc.
     // if "next" is in param, use it as the redirect URL
-    const next = searchParams.get('next') ?? '/'
+    const next = searchParams.get('next') ?? (type === 'signup' ? '/login?verified=true' : '/dashboard')
 
     if (code) {
         const supabase = await createClient()
@@ -16,5 +17,6 @@ export async function GET(request: Request) {
     }
 
     // return the user to an error page with instructions
-    return NextResponse.redirect(`${origin}/auth/auth-code-error`)
+    return NextResponse.redirect(`${origin}/login?error=auth_code_error`)
 }
+
