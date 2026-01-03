@@ -46,8 +46,9 @@ export default function RegisterPage() {
             } else {
                 setSuccess(true)
             }
-        } catch {
-            setError('An unexpected error occurred')
+        } catch (err) {
+            console.error('Registration error:', err)
+            setError('Failed to fetch - Check browser console for details')
         } finally {
             setLoading(false)
         }
