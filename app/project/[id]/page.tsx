@@ -5,8 +5,25 @@ import { Heart, Bookmark, Share2, ExternalLink, Github, ChevronLeft, Eye, Calend
 import Navbar from '@/components/Navbar'
 import { createClient } from '@/lib/supabase/server'
 
+// Force dynamic rendering to ensure fresh data
+export const dynamic = 'force-dynamic'
+
 export default async function ProjectPage({ params }: { params: { id: string } }) {
     const supabase = await createClient()
+
+    // Get current user (if logged in)
+    const { data: { user } } = await supabase.auth.getUser()
+
+    // Get current user's profile ID if authenticated
+    let currentProfileId: string | null = null
+    if (user) {
+        const { data: currentProfile } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('user_id', user.id)
+            .single()
+        currentProfileId = currentProfile?.id || null
+    }
 
     // Fetch project with author and skills
     const { data: project } = await supabase
@@ -30,6 +47,15 @@ export default async function ProjectPage({ params }: { params: { id: string } }
 
     if (!project) {
         notFound()
+    }
+
+    // Access control: DRAFT projects only visible to owner
+    if (project.visibility === 'DRAFT') {
+        const isOwner = currentProfileId && currentProfileId === project.profile_id
+        if (!isOwner) {
+            // Non-owners cannot view draft projects
+            notFound()
+        }
     }
 
     // Extract skills from the join result using a simplified type approach to avoid complex TS issues for now

@@ -4,6 +4,9 @@ import { Search, Heart, Eye, Folder } from 'lucide-react'
 import Navbar from '@/components/Navbar'
 import { createClient } from '@/lib/supabase/server'
 
+// Force dynamic rendering to ensure fresh data
+export const dynamic = 'force-dynamic'
+
 export default async function ExplorePage() {
     const supabase = await createClient()
 
