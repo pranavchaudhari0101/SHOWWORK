@@ -3,7 +3,7 @@
 /* eslint-disable react/no-unknown-property */
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { forwardRef, useRef, useMemo, useLayoutEffect } from 'react'
-import { Color } from 'three'
+import * as THREE from 'three'
 
 const hexToNormalizedRGB = (hex: string) => {
     hex = hex.replace('#', '')
@@ -122,7 +122,7 @@ const Silk = ({
             uSpeed: { value: speed },
             uScale: { value: scale },
             uNoiseIntensity: { value: noiseIntensity },
-            uColor: { value: new Color(...hexToNormalizedRGB(color)) },
+            uColor: { value: new THREE.Color(...hexToNormalizedRGB(color)) },
             uRotation: { value: rotation },
             uTime: { value: 0 }
         }),
