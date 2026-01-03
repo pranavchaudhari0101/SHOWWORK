@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Upload, X, Plus, Github, ExternalLink, ChevronLeft, Loader2, Check } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import { revalidateExplore } from '@/app/actions'
 
 export default function UploadPage() {
     const router = useRouter()
@@ -147,6 +148,9 @@ export default function UploadPage() {
                     }
                 }
             }
+
+            // Revalidate explore page to show new project
+            await revalidateExplore()
 
             // Success! Redirect based on publish type
             router.push(isDraft ? '/dashboard' : '/explore')
