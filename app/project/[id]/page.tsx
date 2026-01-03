@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import { Heart, Bookmark, Share2, ExternalLink, Github, ChevronLeft, Eye, Calendar, Loader2 } from 'lucide-react'
 import Navbar from '@/components/Navbar'
 import { createClient } from '@/lib/supabase/client'
@@ -36,12 +35,11 @@ interface Project {
 }
 
 export default function ProjectPage({ params }: { params: { id: string } }) {
-    const router = useRouter()
     const supabase = createClient()
     const [project, setProject] = useState<Project | null>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
-    const [isOwner, setIsOwner] = useState(false)
+    const [_isOwner, setIsOwner] = useState(false)
 
     useEffect(() => {
         async function fetchProject() {
@@ -61,7 +59,7 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
                 }
 
                 // Fetch project - try standard query first
-                let { data: projectData, error: projectError } = await supabase
+                let { data: projectData } = await supabase
                     .from('projects')
                     .select(`
                         *,
@@ -102,7 +100,7 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
                         .eq('profile_id', currentProfileId)
                         .single()
 
-                    projectData = ownerProject
+                    projectData = ownerProject as typeof projectData
                 }
 
                 if (!projectData) {
@@ -120,7 +118,7 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
                 }
 
                 setProject(projectData)
-            } catch (err) {
+            } catch {
                 setError('Failed to load project')
             } finally {
                 setLoading(false)
@@ -150,7 +148,7 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
                 <main className="pt-24 pb-16">
                     <div className="container max-w-4xl text-center py-20">
                         <h1 className="text-2xl font-medium mb-4">Project Not Found</h1>
-                        <p className="text-gray-500 mb-8">The project you're looking for doesn't exist or is not accessible.</p>
+                        <p className="text-gray-500 mb-8">The project you&apos;re looking for doesn&apos;t exist or is not accessible.</p>
                         <Link href="/explore" className="btn btn-primary">
                             Back to Explore
                         </Link>
