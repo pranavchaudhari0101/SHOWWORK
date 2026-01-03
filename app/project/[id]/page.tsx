@@ -27,7 +27,8 @@ export default async function ProjectPage({ params }: { params: { id: string } }
     }
 
     // Fetch project with author and skills
-    const { data: project } = await supabase
+    // First, try the standard query (relies on RLS)
+    let { data: project } = await supabase
         .from('projects')
         .select(`
             *,
@@ -45,6 +46,32 @@ export default async function ProjectPage({ params }: { params: { id: string } }
         `)
         .eq('id', id)
         .single()
+
+    // If project is null and user is authenticated, try fetching as owner
+    // This handles the case where RLS doesn't properly receive auth context
+    if (!project && currentProfileId) {
+        const { data: ownerProject } = await supabase
+            .from('projects')
+            .select(`
+                *,
+                profiles (
+                    username,
+                    full_name,
+                    avatar_url,
+                    headline
+                ),
+                project_skills (
+                    skills (
+                        name
+                    )
+                )
+            `)
+            .eq('id', id)
+            .eq('profile_id', currentProfileId)
+            .single()
+
+        project = ownerProject
+    }
 
     if (!project) {
         notFound()
