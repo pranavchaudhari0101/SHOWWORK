@@ -10,12 +10,14 @@ export default function DebugPage() {
         profile: unknown
         projects: unknown
         publicProjects: unknown
+        singleProject: unknown
         error: string | null
     }>({
         user: null,
         profile: null,
         projects: null,
         publicProjects: null,
+        singleProject: null,
         error: null
     })
     const [loading, setLoading] = useState(true)
@@ -73,6 +75,29 @@ export default function DebugPage() {
                     setDebug(prev => ({ ...prev, publicProjects }))
                 }
 
+                // 5. Test fetching a specific project by ID (use first project)
+                if (publicProjects && publicProjects.length > 0) {
+                    const testId = publicProjects[0].id
+                    const { data: singleProject, error: singleError } = await supabase
+                        .from('projects')
+                        .select(`
+                            *,
+                            profiles (
+                                username,
+                                full_name,
+                                avatar_url,
+                                headline
+                            )
+                        `)
+                        .eq('id', testId)
+                        .single()
+
+                    setDebug(prev => ({
+                        ...prev,
+                        singleProject: singleError ? `Error: ${singleError.message}` : singleProject
+                    }))
+                }
+
             } catch (err) {
                 setDebug(prev => ({ ...prev, error: `Unexpected: ${err}` }))
             } finally {
@@ -116,6 +141,25 @@ export default function DebugPage() {
                 <section className="bg-gray-800 p-4 rounded">
                     <h2 className="text-lg font-semibold mb-2">4. Public Projects (visibility=PUBLIC)</h2>
                     <pre className="text-sm overflow-auto">{JSON.stringify(debug.publicProjects, null, 2)}</pre>
+                </section>
+
+                <section className="bg-gray-800 p-4 rounded">
+                    <h2 className="text-lg font-semibold mb-2">5. Single Project Fetch by ID (with profiles join)</h2>
+                    <pre className="text-sm overflow-auto">{JSON.stringify(debug.singleProject, null, 2)}</pre>
+                </section>
+
+                <section className="bg-green-900/30 border border-green-500 p-4 rounded">
+                    <h2 className="text-lg font-semibold mb-2">🔗 Test Project Links</h2>
+                    <p className="text-sm mb-3">Click these to test if the project page works:</p>
+                    {Array.isArray(debug.publicProjects) && debug.publicProjects.map((p: { id: string; title: string }) => (
+                        <a
+                            key={p.id}
+                            href={`/project/${p.id}`}
+                            className="block bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded mb-2 text-sm"
+                        >
+                            View: {p.title} → /project/{p.id}
+                        </a>
+                    ))}
                 </section>
             </div>
 
