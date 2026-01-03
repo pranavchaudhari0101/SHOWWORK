@@ -13,21 +13,21 @@ export default function HomePage() {
             <section className="hero">
                 <div className="container">
                     <div className="max-w-2xl">
-                        <div className="hero-badge">
+                        <div className="hero-badge fade-up fade-up-1">
                             <span className="dot" />
                             <span>Join 10,000+ students</span>
                         </div>
 
-                        <h1 className="text-display mb-6">
+                        <h1 className="text-display mb-6 fade-up fade-up-2">
                             Showcase your work<span className="accent-dot">.</span><br />
                             Get discovered<span className="accent-dot">.</span>
                         </h1>
 
-                        <p className="text-xl text-gray-400 mb-8 max-w-lg">
+                        <p className="text-xl text-gray-400 mb-8 max-w-lg fade-up fade-up-3">
                             The portfolio platform built for ambitious students. Share your projects, connect with recruiters, and land your dream role.
                         </p>
 
-                        <div className="flex flex-wrap gap-4">
+                        <div className="flex flex-wrap gap-4 fade-up fade-up-4">
                             <Link href="/register" className="btn btn-primary">
                                 Start for free
                                 <ArrowRight className="w-4 h-4" />
