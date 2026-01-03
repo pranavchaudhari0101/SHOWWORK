@@ -21,7 +21,7 @@ export default async function ExplorePage() {
             likes_count,
             views_count,
             created_at,
-            profiles (
+            profiles:profile_id (
                 username,
                 full_name,
                 avatar_url
