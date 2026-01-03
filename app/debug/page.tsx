@@ -82,7 +82,7 @@ export default function DebugPage() {
                         .from('projects')
                         .select(`
                             *,
-                            profiles (
+                            profiles:profile_id (
                                 username,
                                 full_name,
                                 avatar_url,

@@ -66,7 +66,7 @@ export default function ProjectPage() {
                     .from('projects')
                     .select(`
                         *,
-                        profiles (
+                        profiles:profile_id (
                             username,
                             full_name,
                             avatar_url,
@@ -87,7 +87,7 @@ export default function ProjectPage() {
                         .from('projects')
                         .select(`
                             *,
-                            profiles (
+                            profiles:profile_id (
                                 username,
                                 full_name,
                                 avatar_url,
