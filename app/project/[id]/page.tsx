@@ -8,8 +8,9 @@ import { createClient } from '@/lib/supabase/server'
 // Force dynamic rendering to ensure fresh data
 export const dynamic = 'force-dynamic'
 
-export default async function ProjectPage({ params }: { params: { id: string } }) {
+export default async function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
     const supabase = await createClient()
+    const { id } = await params
 
     // Get current user (if logged in)
     const { data: { user } } = await supabase.auth.getUser()
@@ -42,7 +43,7 @@ export default async function ProjectPage({ params }: { params: { id: string } }
                 )
             )
         `)
-        .eq('id', params.id)
+        .eq('id', id)
         .single()
 
     if (!project) {

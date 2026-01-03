@@ -11,7 +11,8 @@ export default function UploadPage() {
     const router = useRouter()
     const supabase = createClient()
 
-    const [loading, setLoading] = useState(false)
+    const [publishLoading, setPublishLoading] = useState(false)
+    const [draftLoading, setDraftLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [coverImage, setCoverImage] = useState<File | null>(null)
     const [coverPreview, setCoverPreview] = useState<string | null>(null)
@@ -51,7 +52,11 @@ export default function UploadPage() {
 
     const handleSubmit = async (e: React.FormEvent, isDraft: boolean = false) => {
         e.preventDefault()
-        setLoading(true)
+        if (isDraft) {
+            setDraftLoading(true)
+        } else {
+            setPublishLoading(true)
+        }
         setError(null)
 
         try {
@@ -143,14 +148,15 @@ export default function UploadPage() {
                 }
             }
 
-            // Success! Redirect to dashboard
-            router.push('/dashboard')
+            // Success! Redirect based on publish type
+            router.push(isDraft ? '/dashboard' : '/explore')
             router.refresh()
 
         } catch {
             setError('An unexpected error occurred')
         } finally {
-            setLoading(false)
+            setPublishLoading(false)
+            setDraftLoading(false)
         }
     }
 
@@ -167,10 +173,10 @@ export default function UploadPage() {
                         <Link href="/dashboard" className="btn btn-ghost">Cancel</Link>
                         <button
                             onClick={(e) => handleSubmit(e, false)}
-                            disabled={loading || !formData.title}
+                            disabled={publishLoading || draftLoading || !formData.title}
                             className="btn btn-primary disabled:opacity-50"
                         >
-                            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                            {publishLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                             Publish Project
                         </button>
                     </div>
@@ -353,18 +359,18 @@ export default function UploadPage() {
                             <button
                                 type="button"
                                 onClick={(e) => handleSubmit(e, true)}
-                                disabled={loading || !formData.title}
+                                disabled={publishLoading || draftLoading || !formData.title}
                                 className="btn btn-secondary flex-1 disabled:opacity-50"
                             >
-                                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                                {draftLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
                                 Save as Draft
                             </button>
                             <button
                                 type="submit"
-                                disabled={loading || !formData.title}
+                                disabled={publishLoading || draftLoading || !formData.title}
                                 className="btn btn-primary flex-1 disabled:opacity-50"
                             >
-                                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                                {publishLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                                 Publish Project
                             </button>
                         </div>
