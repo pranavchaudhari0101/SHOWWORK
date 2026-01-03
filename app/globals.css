@@ -19,7 +19,7 @@
     body {
         @apply text-white font-sans;
         letter-spacing: -0.01em;
-        background-color: transparent;
+        background-color: #0a0a0c;
         min-height: 100vh;
         position: relative;
     }
