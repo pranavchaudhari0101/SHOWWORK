@@ -23,7 +23,7 @@ export default async function TestSupabasePage() {
                                 <ul className="list-disc list-inside mt-2 space-y-1">
                                     <li>Check your .env.local file has correct NEXT_PUBLIC_SUPABASE_URL</li>
                                     <li>Verify NEXT_PUBLIC_SUPABASE_ANON_KEY is correct</li>
-                                    <li>Ensure the 'todos' table exists in your Supabase database</li>
+                                    <li>Ensure the &apos;todos&apos; table exists in your Supabase database</li>
                                     <li>Restart your development server after changing .env.local</li>
                                 </ul>
                             </div>
@@ -50,7 +50,7 @@ export default async function TestSupabasePage() {
                                 <div>
                                     <p className="mb-2">✅ Connected to Supabase successfully!</p>
                                     <p className="text-sm opacity-80">
-                                        The 'todos' table exists but contains no data yet.
+                                        The &apos;todos&apos; table exists but contains no data yet.
                                     </p>
                                 </div>
                             )}
