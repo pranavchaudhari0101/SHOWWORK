@@ -8,9 +8,9 @@ import { createClient } from '@/lib/supabase/server'
 // Force dynamic rendering to ensure fresh data
 export const dynamic = 'force-dynamic'
 
-export default async function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function ProjectPage({ params }: { params: { id: string } }) {
     const supabase = await createClient()
-    const { id } = await params
+    const { id } = params
 
     // Get current user (if logged in)
     const { data: { user } } = await supabase.auth.getUser()
@@ -50,11 +50,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
         notFound()
     }
 
-    // Access control: DRAFT projects only visible to owner
-    if (project.visibility === 'DRAFT') {
+    // Access control: DRAFT and PRIVATE projects only visible to owner
+    if (project.visibility === 'DRAFT' || project.visibility === 'PRIVATE') {
         const isOwner = currentProfileId && currentProfileId === project.profile_id
         if (!isOwner) {
-            // Non-owners cannot view draft projects
+            // Non-owners cannot view draft/private projects
             notFound()
         }
     }
