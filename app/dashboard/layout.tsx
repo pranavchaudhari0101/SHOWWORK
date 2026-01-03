@@ -1,12 +1,31 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { LayoutDashboard, Folder, BarChart2, Bookmark, Settings } from 'lucide-react'
+import { createClient } from '@/lib/supabase/server'
+import { redirect } from 'next/navigation'
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
     children,
 }: {
     children: React.ReactNode
 }) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) {
+        redirect('/login')
+    }
+
+    // Get user's profile
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('username, full_name')
+        .eq('user_id', user.id)
+        .single()
+
+    const displayName = profile?.full_name || user.email?.split('@')[0] || 'User'
+    const initials = displayName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)
+
     return (
         <div className="flex min-h-screen">
             {/* Sidebar */}
@@ -40,9 +59,9 @@ export default function DashboardLayout({
                 </nav>
 
                 <div className="mt-auto pt-6 border-t border-gray-900">
-                    <Link href="/profile/johndoe" className="sidebar-link">
-                        <div className="avatar w-8 h-8 text-xs">JD</div>
-                        <span>John Doe</span>
+                    <Link href={`/profile/${profile?.username || 'me'}`} className="sidebar-link">
+                        <div className="avatar w-8 h-8 text-xs">{initials}</div>
+                        <span>{displayName}</span>
                     </Link>
                 </div>
             </aside>
