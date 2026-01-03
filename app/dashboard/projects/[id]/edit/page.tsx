@@ -92,7 +92,7 @@ export default function EditProjectPage({ params }: { params: { id: string } }) 
 
             if (projectSkills) {
                 const tagNames = projectSkills
-                    .map((ps: any) => ps.skills?.name)
+                    .map((ps: unknown) => (ps as { skills: { name: string } | null }).skills?.name)
                     .filter(Boolean) as string[]
                 setTags(tagNames)
             }

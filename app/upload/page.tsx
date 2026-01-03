@@ -198,12 +198,17 @@ export default function UploadPage() {
                             <label className="form-label">Cover Image</label>
                             <label className="border-2 border-dashed border-gray-800 rounded-xl p-8 text-center hover:border-gray-700 transition-colors cursor-pointer block">
                                 {coverPreview ? (
-                                    <div className="relative">
-                                        <img src={coverPreview} alt="Preview" className="max-h-48 mx-auto rounded-lg" />
+                                    <div className="relative h-48 w-full">
+                                        <Image
+                                            src={coverPreview}
+                                            alt="Preview"
+                                            fill
+                                            className="object-contain rounded-lg"
+                                        />
                                         <button
                                             type="button"
                                             onClick={(e) => { e.preventDefault(); setCoverImage(null); setCoverPreview(null); }}
-                                            className="absolute top-2 right-2 p-1 bg-black/50 rounded-full hover:bg-black/80"
+                                            className="absolute top-2 right-2 p-1 bg-black/50 rounded-full hover:bg-black/80 z-10"
                                         >
                                             <X className="w-4 h-4" />
                                         </button>
