@@ -36,7 +36,7 @@ export default function Navbar() {
         <nav className="navbar">
             <div className="container flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-2">
-                    <Image src="/logo.png" alt="ShowWork" width={140} height={40} className="h-8 w-auto" />
+                    <Image src="/logo.png" alt="ShowWork" width={180} height={50} className="h-10 w-auto" />
                 </Link>
 
                 <div className="hidden md:flex items-center gap-8">
