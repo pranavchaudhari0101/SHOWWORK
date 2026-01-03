@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useParams } from 'next/navigation'
 import { Heart, Bookmark, Share2, ExternalLink, Github, ChevronLeft, Eye, Calendar, Loader2 } from 'lucide-react'
 import Navbar from '@/components/Navbar'
 import { createClient } from '@/lib/supabase/client'
@@ -34,7 +35,9 @@ interface Project {
     }>
 }
 
-export default function ProjectPage({ params }: { params: { id: string } }) {
+export default function ProjectPage() {
+    const params = useParams()
+    const projectId = params.id as string
     const supabase = createClient()
     const [project, setProject] = useState<Project | null>(null)
     const [loading, setLoading] = useState(true)
@@ -75,7 +78,7 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
                             )
                         )
                     `)
-                    .eq('id', params.id)
+                    .eq('id', projectId)
                     .single()
 
                 // If no project found and user is authenticated, try fetching as owner
@@ -96,7 +99,7 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
                                 )
                             )
                         `)
-                        .eq('id', params.id)
+                        .eq('id', projectId)
                         .eq('profile_id', currentProfileId)
                         .single()
 
@@ -126,7 +129,7 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
         }
 
         fetchProject()
-    }, [params.id, supabase])
+    }, [projectId, supabase])
 
     if (loading) {
         return (
