@@ -1,101 +1,174 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { notFound } from 'next/navigation'
-import { Heart, Bookmark, Share2, ExternalLink, Github, ChevronLeft, Eye, Calendar } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { Heart, Bookmark, Share2, ExternalLink, Github, ChevronLeft, Eye, Calendar, Loader2 } from 'lucide-react'
 import Navbar from '@/components/Navbar'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/client'
 
-// Force dynamic rendering to ensure fresh data
-export const dynamic = 'force-dynamic'
+interface Project {
+    id: string
+    title: string
+    short_desc: string
+    full_desc: string
+    cover_image_url: string | null
+    github_url: string | null
+    live_url: string | null
+    visibility: string
+    profile_id: string
+    likes_count: number
+    saves_count: number
+    views_count: number
+    created_at: string
+    profiles: {
+        username: string
+        full_name: string
+        avatar_url: string | null
+        headline: string | null
+    } | null
+    project_skills: Array<{
+        skills: {
+            name: string
+        } | null
+    }>
+}
 
-export default async function ProjectPage({ params }: { params: { id: string } }) {
-    const supabase = await createClient()
-    const { id } = params
+export default function ProjectPage({ params }: { params: { id: string } }) {
+    const router = useRouter()
+    const supabase = createClient()
+    const [project, setProject] = useState<Project | null>(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
+    const [isOwner, setIsOwner] = useState(false)
 
-    // Get current user (if logged in)
-    const { data: { user } } = await supabase.auth.getUser()
+    useEffect(() => {
+        async function fetchProject() {
+            try {
+                // Get current user
+                const { data: { user } } = await supabase.auth.getUser()
 
-    // Get current user's profile ID if authenticated
-    let currentProfileId: string | null = null
-    if (user) {
-        const { data: currentProfile } = await supabase
-            .from('profiles')
-            .select('id')
-            .eq('user_id', user.id)
-            .single()
-        currentProfileId = currentProfile?.id || null
-    }
+                // Get user's profile ID if authenticated
+                let currentProfileId: string | null = null
+                if (user) {
+                    const { data: profile } = await supabase
+                        .from('profiles')
+                        .select('id')
+                        .eq('user_id', user.id)
+                        .single()
+                    currentProfileId = profile?.id || null
+                }
 
-    // Fetch project with author and skills
-    // First, try the standard query (relies on RLS)
-    let { data: project } = await supabase
-        .from('projects')
-        .select(`
-            *,
-            profiles (
-                username,
-                full_name,
-                avatar_url,
-                headline
-            ),
-            project_skills (
-                skills (
-                    name
-                )
-            )
-        `)
-        .eq('id', id)
-        .single()
+                // Fetch project - try standard query first
+                let { data: projectData, error: projectError } = await supabase
+                    .from('projects')
+                    .select(`
+                        *,
+                        profiles (
+                            username,
+                            full_name,
+                            avatar_url,
+                            headline
+                        ),
+                        project_skills (
+                            skills (
+                                name
+                            )
+                        )
+                    `)
+                    .eq('id', params.id)
+                    .single()
 
-    // If project is null and user is authenticated, try fetching as owner
-    // This handles the case where RLS doesn't properly receive auth context
-    if (!project && currentProfileId) {
-        const { data: ownerProject } = await supabase
-            .from('projects')
-            .select(`
-                *,
-                profiles (
-                    username,
-                    full_name,
-                    avatar_url,
-                    headline
-                ),
-                project_skills (
-                    skills (
-                        name
-                    )
-                )
-            `)
-            .eq('id', id)
-            .eq('profile_id', currentProfileId)
-            .single()
+                // If no project found and user is authenticated, try fetching as owner
+                if (!projectData && currentProfileId) {
+                    const { data: ownerProject } = await supabase
+                        .from('projects')
+                        .select(`
+                            *,
+                            profiles (
+                                username,
+                                full_name,
+                                avatar_url,
+                                headline
+                            ),
+                            project_skills (
+                                skills (
+                                    name
+                                )
+                            )
+                        `)
+                        .eq('id', params.id)
+                        .eq('profile_id', currentProfileId)
+                        .single()
 
-        project = ownerProject
-    }
+                    projectData = ownerProject
+                }
 
-    if (!project) {
-        notFound()
-    }
+                if (!projectData) {
+                    setError('Project not found')
+                    return
+                }
 
-    // Access control: DRAFT and PRIVATE projects only visible to owner
-    if (project.visibility === 'DRAFT' || project.visibility === 'PRIVATE') {
-        const isOwner = currentProfileId && currentProfileId === project.profile_id
-        if (!isOwner) {
-            // Non-owners cannot view draft/private projects
-            notFound()
+                // Access control: DRAFT and PRIVATE only visible to owner
+                const ownerCheck = currentProfileId && currentProfileId === projectData.profile_id
+                setIsOwner(!!ownerCheck)
+
+                if ((projectData.visibility === 'DRAFT' || projectData.visibility === 'PRIVATE') && !ownerCheck) {
+                    setError('Project not found')
+                    return
+                }
+
+                setProject(projectData)
+            } catch (err) {
+                setError('Failed to load project')
+            } finally {
+                setLoading(false)
+            }
         }
+
+        fetchProject()
+    }, [params.id, supabase])
+
+    if (loading) {
+        return (
+            <>
+                <Navbar />
+                <main className="pt-24 pb-16">
+                    <div className="container max-w-4xl flex items-center justify-center min-h-[50vh]">
+                        <Loader2 className="w-8 h-8 animate-spin text-gray-500" />
+                    </div>
+                </main>
+            </>
+        )
     }
 
-    // Extract skills from the join result using a simplified type approach to avoid complex TS issues for now
-    // In a strict setup we would define proper interfaces
-    const skills = project.project_skills ? project.project_skills.map((ps: unknown) => (ps as { skills: { name: string } | null }).skills?.name).filter(Boolean) : []
+    if (error || !project) {
+        return (
+            <>
+                <Navbar />
+                <main className="pt-24 pb-16">
+                    <div className="container max-w-4xl text-center py-20">
+                        <h1 className="text-2xl font-medium mb-4">Project Not Found</h1>
+                        <p className="text-gray-500 mb-8">The project you're looking for doesn't exist or is not accessible.</p>
+                        <Link href="/explore" className="btn btn-primary">
+                            Back to Explore
+                        </Link>
+                    </div>
+                </main>
+            </>
+        )
+    }
+
+    // Extract skills
+    const skills = project.project_skills
+        ? project.project_skills.map(ps => ps.skills?.name).filter(Boolean) as string[]
+        : []
 
     return (
         <>
-            {/* Navigation */}
             <Navbar />
 
-            {/* Main Content */}
             <main className="pt-24 pb-16">
                 <div className="container max-w-4xl">
                     {/* Breadcrumb */}
@@ -105,6 +178,9 @@ export default async function ProjectPage({ params }: { params: { id: string } }
                         </Link>
                         {project.visibility === 'DRAFT' && (
                             <span className="tag text-yellow-500 border-yellow-500/20 bg-yellow-500/10">Draft</span>
+                        )}
+                        {project.visibility === 'PRIVATE' && (
+                            <span className="tag text-gray-400 border-gray-500/20 bg-gray-500/10">Private</span>
                         )}
                     </div>
 
@@ -215,7 +291,7 @@ export default async function ProjectPage({ params }: { params: { id: string } }
                                 <div className="card p-5">
                                     <p className="text-xs uppercase tracking-wider text-gray-500 mb-4 font-semibold">Tech Stack</p>
                                     <div className="flex flex-wrap gap-2">
-                                        {skills.map((tech: string) => (
+                                        {skills.map((tech) => (
                                             <span key={tech} className="tag bg-gray-900 border-gray-700 text-gray-300">{tech}</span>
                                         ))}
                                     </div>
