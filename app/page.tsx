@@ -5,6 +5,9 @@ import Navbar from '@/components/Navbar'
 
 import { createClient } from '@/lib/supabase/server'
 
+// Force dynamic rendering to ensure fresh counts
+export const dynamic = 'force-dynamic'
+
 export default async function HomePage() {
     const supabase = await createClient()
 
