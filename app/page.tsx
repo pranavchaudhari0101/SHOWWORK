@@ -289,6 +289,13 @@ export default async function HomePage() {
                                 <li><Link href="/terms" className="footer-link">Terms</Link></li>
                             </ul>
                         </div>
+
+                        <div>
+                            <h4 className="footer-heading">Bug Report</h4>
+                            <ul className="space-y-3">
+                                <li><a href="mailto:codingwithpranav02@gmail.com" className="footer-link">codingwithpranav02@gmail.com</a></li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div className="flex flex-wrap items-center justify-between gap-4 pt-8 border-t border-gray-900">
