@@ -356,6 +356,12 @@ export default function UploadPage() {
                                 <option value="ml">AI/ML</option>
                                 <option value="mobile">Mobile</option>
                                 <option value="devops">DevOps</option>
+                                <option value="embedded">Embedded Systems</option>
+                                <option value="web3">Web3 Developer</option>
+                                <option value="game">Game Developer</option>
+                                <option value="security">Security Engineer</option>
+                                <option value="data">Data Scientist</option>
+                                <option value="uiux">UX/UI Designer</option>
                             </select>
                         </div>
 

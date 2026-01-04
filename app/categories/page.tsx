@@ -2,22 +2,45 @@ import Link from 'next/link'
 import { Layers, Brain, Layout, Server, Smartphone, Database, Cloud, Palette, Shield, Cpu, Globe, Code2 } from 'lucide-react'
 import Navbar from '@/components/Navbar'
 
-const categories = [
-    { slug: 'fullstack', name: 'Full-Stack Developer', icon: Layers, count: 2450, desc: 'End-to-end web applications' },
-    { slug: 'frontend', name: 'Frontend Developer', icon: Layout, count: 3120, desc: 'User interfaces and experiences' },
-    { slug: 'backend', name: 'Backend Developer', icon: Server, count: 1890, desc: 'APIs and server architecture' },
-    { slug: 'ml', name: 'AI/ML Engineer', icon: Brain, count: 1560, desc: 'Machine learning and AI models' },
-    { slug: 'mobile', name: 'Mobile Developer', icon: Smartphone, count: 1340, desc: 'iOS and Android applications' },
-    { slug: 'data', name: 'Data Scientist', icon: Database, count: 980, desc: 'Data analysis and visualization' },
-    { slug: 'devops', name: 'DevOps Engineer', icon: Cloud, count: 720, desc: 'Infrastructure and deployment' },
-    { slug: 'design', name: 'UX/UI Designer', icon: Palette, count: 1100, desc: 'Design systems and prototypes' },
-    { slug: 'security', name: 'Security Engineer', icon: Shield, count: 450, desc: 'Security audits and penetration testing' },
-    { slug: 'embedded', name: 'Embedded Systems', icon: Cpu, count: 380, desc: 'Hardware and IoT projects' },
-    { slug: 'web3', name: 'Web3 Developer', icon: Globe, count: 620, desc: 'Blockchain and decentralized apps' },
-    { slug: 'games', name: 'Game Developer', icon: Code2, count: 540, desc: 'Games and interactive media' },
+import { createClient } from '@/lib/supabase/server'
+
+// Force dynamic rendering to ensure fresh counts
+export const dynamic = 'force-dynamic'
+
+const categoryConfig = [
+    { slug: 'fullstack', name: 'Full-Stack Developer', icon: Layers, desc: 'End-to-end web applications' },
+    { slug: 'frontend', name: 'Frontend Developer', icon: Layout, desc: 'User interfaces and experiences' },
+    { slug: 'backend', name: 'Backend Developer', icon: Server, desc: 'APIs and server architecture' },
+    { slug: 'ml', name: 'AI/ML Engineer', icon: Brain, desc: 'Machine learning and AI models' },
+    { slug: 'mobile', name: 'Mobile Developer', icon: Smartphone, desc: 'iOS and Android applications' },
+    { slug: 'data', name: 'Data Scientist', icon: Database, desc: 'Data analysis and visualization' },
+    { slug: 'devops', name: 'DevOps Engineer', icon: Cloud, desc: 'Infrastructure and deployment' },
+    { slug: 'uiux', name: 'UX/UI Designer', icon: Palette, desc: 'Design systems and prototypes' },
+    { slug: 'security', name: 'Security Engineer', icon: Shield, desc: 'Security audits and penetration testing' },
+    { slug: 'embedded', name: 'Embedded Systems', icon: Cpu, desc: 'Hardware and IoT projects' },
+    { slug: 'web3', name: 'Web3 Developer', icon: Globe, desc: 'Blockchain and decentralized apps' },
+    { slug: 'game', name: 'Game Developer', icon: Code2, desc: 'Games and interactive media' },
 ]
 
-export default function CategoriesPage() {
+export default async function CategoriesPage() {
+    const supabase = await createClient()
+
+    // Fetch counts for all categories
+    const categories = await Promise.all(
+        categoryConfig.map(async (cat) => {
+            const { count } = await supabase
+                .from('projects')
+                .select('*', { count: 'exact', head: true })
+                .eq('category', cat.slug)
+                .eq('visibility', 'PUBLIC')
+
+            return {
+                ...cat,
+                count: count || 0
+            }
+        })
+    )
+
     return (
         <>
             {/* Navigation */}
