@@ -7,11 +7,16 @@ import { createClient } from '@/lib/supabase/server'
 // Force dynamic rendering to ensure fresh data
 export const dynamic = 'force-dynamic'
 
-export default async function ExplorePage() {
+export default async function ExplorePage({
+    searchParams
+}: {
+    searchParams: { category?: string }
+}) {
     const supabase = await createClient()
+    const category = searchParams.category
 
-    // Fetch public projects with profile info
-    const { data: projects } = await supabase
+    // Start building query
+    let query = supabase
         .from('projects')
         .select(`
             id,
@@ -28,6 +33,14 @@ export default async function ExplorePage() {
             )
         `)
         .eq('visibility', 'PUBLIC')
+
+    // Apply category filter if present
+    if (category) {
+        query = query.eq('category', category)
+    }
+
+    // Execute query
+    const { data: projects } = await query
         .order('created_at', { ascending: false })
         .limit(20)
 

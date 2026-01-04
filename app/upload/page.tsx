@@ -121,7 +121,8 @@ export default function UploadPage() {
                     github_url: formData.githubUrl || null,
                     live_url: formData.liveUrl || null,
                     visibility: isDraft ? 'DRAFT' : 'PUBLIC',
-                    status: isDraft ? 'IN_PROGRESS' : 'COMPLETED'
+                    status: isDraft ? 'IN_PROGRESS' : 'COMPLETED',
+                    category: formData.category || null
                 })
                 .select()
                 .single()

@@ -3,7 +3,35 @@ import Image from 'next/image'
 import { ArrowRight, Github, Play, ExternalLink, BarChart2, Search, LinkIcon, Brain, Layout, Server, Smartphone, Plus, Layers } from 'lucide-react'
 import Navbar from '@/components/Navbar'
 
-export default function HomePage() {
+import { createClient } from '@/lib/supabase/server'
+
+export default async function HomePage() {
+    const supabase = await createClient()
+
+    // Fetch counts for categories
+    const categoriesToCheck = [
+        { id: 'fullstack', label: 'Full-Stack Developer', icon: Layers },
+        { id: 'ml', label: 'AI/ML Engineer', icon: Brain },
+        { id: 'frontend', label: 'Frontend Developer', icon: Layout },
+        { id: 'backend', label: 'Backend Developer', icon: Server },
+        { id: 'mobile', label: 'Mobile Developer', icon: Smartphone },
+    ]
+
+    const categoryStats = await Promise.all(
+        categoriesToCheck.map(async (cat) => {
+            const { count } = await supabase
+                .from('projects')
+                .select('*', { count: 'exact', head: true })
+                .eq('category', cat.id)
+                .eq('visibility', 'PUBLIC')
+
+            return {
+                ...cat,
+                count: count || 0
+            }
+        })
+    )
+
     return (
         <>
             {/* Navigation */}
@@ -135,57 +163,19 @@ export default function HomePage() {
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <Link href="/explore?category=fullstack" className="category-card">
-                            <div className="category-icon">
-                                <Layers className="w-6 h-6" />
-                            </div>
-                            <div>
-                                <p className="font-medium mb-1">Full-Stack Developer</p>
-                                <p className="text-sm text-gray-500">2,450 projects</p>
-                            </div>
-                        </Link>
+                        {categoryStats.map((cat) => (
+                            <Link key={cat.id} href={`/explore?category=${cat.id}`} className="category-card">
+                                <div className="category-icon">
+                                    <cat.icon className="w-6 h-6" />
+                                </div>
+                                <div>
+                                    <p className="font-medium mb-1">{cat.label}</p>
+                                    <p className="text-sm text-gray-500">{cat.count} projects</p>
+                                </div>
+                            </Link>
+                        ))}
 
-                        <Link href="/explore?category=ml" className="category-card">
-                            <div className="category-icon">
-                                <Brain className="w-6 h-6" />
-                            </div>
-                            <div>
-                                <p className="font-medium mb-1">AI/ML Engineer</p>
-                                <p className="text-sm text-gray-500">1,560 projects</p>
-                            </div>
-                        </Link>
-
-                        <Link href="/explore?category=frontend" className="category-card">
-                            <div className="category-icon">
-                                <Layout className="w-6 h-6" />
-                            </div>
-                            <div>
-                                <p className="font-medium mb-1">Frontend Developer</p>
-                                <p className="text-sm text-gray-500">3,120 projects</p>
-                            </div>
-                        </Link>
-
-                        <Link href="/explore?category=backend" className="category-card">
-                            <div className="category-icon">
-                                <Server className="w-6 h-6" />
-                            </div>
-                            <div>
-                                <p className="font-medium mb-1">Backend Developer</p>
-                                <p className="text-sm text-gray-500">1,890 projects</p>
-                            </div>
-                        </Link>
-
-                        <Link href="/explore?category=mobile" className="category-card">
-                            <div className="category-icon">
-                                <Smartphone className="w-6 h-6" />
-                            </div>
-                            <div>
-                                <p className="font-medium mb-1">Mobile Developer</p>
-                                <p className="text-sm text-gray-500">1,340 projects</p>
-                            </div>
-                        </Link>
-
-                        <Link href="/categories" className="category-card border-dashed">
+                        <Link href="/explore" className="category-card border-dashed">
                             <div className="category-icon">
                                 <Plus className="w-6 h-6" />
                             </div>
