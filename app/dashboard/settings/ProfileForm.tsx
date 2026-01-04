@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
-import { Save, Loader2 } from 'lucide-react'
+import { Save, Loader2, Camera, User } from 'lucide-react'
+import Image from 'next/image'
 
 interface Profile {
     id: string
@@ -12,6 +13,7 @@ interface Profile {
     headline: string | null
     bio: string | null
     location: string | null
+    avatar_url: string | null
     github_url: string | null
     linkedin_url: string | null
     website_url: string | null
@@ -23,6 +25,7 @@ export default function ProfileForm({ profile, userEmail }: { profile: Profile |
     const supabase = createClient()
 
     const [loading, setLoading] = useState(false)
+    const [uploading, setUploading] = useState(false)
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
@@ -32,6 +35,7 @@ export default function ProfileForm({ profile, userEmail }: { profile: Profile |
         headline: profile?.headline || '',
         bio: profile?.bio || '',
         location: profile?.location || '',
+        avatar_url: profile?.avatar_url || '',
         github_url: profile?.github_url || '',
         linkedin_url: profile?.linkedin_url || '',
         website_url: profile?.website_url || '',
@@ -40,6 +44,37 @@ export default function ProfileForm({ profile, userEmail }: { profile: Profile |
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
+
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        try {
+            setUploading(true)
+            setError(null)
+
+            if (!e.target.files || e.target.files.length === 0) {
+                throw new Error('You must select an image to upload.')
+            }
+
+            const file = e.target.files[0]
+            const fileExt = file.name.split('.').pop()
+            const filePath = `${profile?.id}/avatar-${Math.random()}.${fileExt}`
+
+            // Upload to Supabase
+            const { error: uploadError } = await supabase.storage
+                .from('avatars')
+                .upload(filePath, file, { upsert: true })
+
+            if (uploadError) throw uploadError
+
+            // Get Public URL
+            const { data } = supabase.storage.from('avatars').getPublicUrl(filePath)
+
+            setFormData(prev => ({ ...prev, avatar_url: data.publicUrl }))
+        } catch (error: any) {
+            setError(error.message || 'Error uploading image')
+        } finally {
+            setUploading(false)
+        }
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -57,6 +92,7 @@ export default function ProfileForm({ profile, userEmail }: { profile: Profile |
                     headline: formData.headline || null,
                     bio: formData.bio || null,
                     location: formData.location || null,
+                    avatar_url: formData.avatar_url || null,
                     github_url: formData.github_url || null,
                     linkedin_url: formData.linkedin_url || null,
                     website_url: formData.website_url || null,
@@ -93,6 +129,46 @@ export default function ProfileForm({ profile, userEmail }: { profile: Profile |
 
             <div className="card p-6 space-y-6">
                 <h3 className="font-medium border-b border-gray-800 pb-4">Basic Information</h3>
+
+                {/* Avatar Upload */}
+                <div className="flex items-center gap-6">
+                    <div className="relative group">
+                        <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-800 border-2 border-gray-700">
+                            {formData.avatar_url ? (
+                                <Image
+                                    src={formData.avatar_url}
+                                    alt="Avatar"
+                                    width={96}
+                                    height={96}
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <div className="w-full h-full flex items-center justify-center text-gray-500">
+                                    <User className="w-8 h-8" />
+                                </div>
+                            )}
+                        </div>
+                        <label
+                            htmlFor="avatar-upload"
+                            className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-full"
+                        >
+                            <Camera className="w-6 h-6 text-white" />
+                        </label>
+                        <input
+                            type="file"
+                            id="avatar-upload"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            className="hidden"
+                            disabled={uploading}
+                        />
+                    </div>
+                    <div>
+                        <p className="font-medium mb-1">Profile Photo</p>
+                        <p className="text-sm text-gray-500 mb-2">Recommended: Square JPG, PNG</p>
+                        {uploading && <p className="text-xs text-accent-blue flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin" /> Uploading...</p>}
+                    </div>
+                </div>
 
                 <div className="grid md:grid-cols-2 gap-4">
                     <div>
@@ -230,7 +306,7 @@ export default function ProfileForm({ profile, userEmail }: { profile: Profile |
 
             <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || uploading}
                 className="btn btn-primary flex items-center gap-2 disabled:opacity-50"
             >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}

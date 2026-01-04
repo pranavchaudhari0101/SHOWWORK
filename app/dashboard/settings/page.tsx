@@ -43,8 +43,18 @@ export default async function SettingsPage() {
                         Profile Preview
                     </h3>
                     <div className="text-center py-6">
-                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-2xl font-medium mx-auto mb-4">
-                            {profile?.full_name?.charAt(0) || user.email?.charAt(0).toUpperCase()}
+                        <div className="w-20 h-20 rounded-full bg-gray-800 border-2 border-gray-700 overflow-hidden flex items-center justify-center mx-auto mb-4">
+                            {profile?.avatar_url ? (
+                                <img
+                                    src={profile.avatar_url}
+                                    alt={profile.full_name || 'User'}
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-2xl font-medium text-white">
+                                    {profile?.full_name?.charAt(0) || user.email?.charAt(0).toUpperCase()}
+                                </div>
+                            )}
                         </div>
                         <h4 className="font-medium text-lg">{profile?.full_name || 'Your Name'}</h4>
                         <p className="text-sm text-gray-500">@{profile?.username || 'username'}</p>
