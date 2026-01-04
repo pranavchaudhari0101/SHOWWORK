@@ -48,6 +48,91 @@ export default function ProjectPage() {
     const [saveCount, setSaveCount] = useState(0)
 
     useEffect(() => {
+        async function fetchProject() {
+            try {
+                // Get current user
+                const { data: { user } } = await supabase.auth.getUser()
+
+                // Get user's profile ID if authenticated
+                let currentProfileId: string | null = null
+                if (user) {
+                    const { data: profile } = await supabase
+                        .from('profiles')
+                        .select('id')
+                        .eq('user_id', user.id)
+                        .single()
+                    currentProfileId = profile?.id || null
+                }
+
+                // Fetch project - try standard query first
+                let { data: projectData } = await supabase
+                    .from('projects')
+                    .select(`
+                        *,
+                        profiles:profile_id (
+                            username,
+                            full_name,
+                            avatar_url,
+                            headline
+                        ),
+                        project_skills (
+                            skills (
+                                name
+                            )
+                        )
+                    `)
+                    .eq('id', projectId)
+                    .single()
+
+                // If no project found and user is authenticated, try fetching as owner
+                if (!projectData && currentProfileId) {
+                    const { data: ownerProject } = await supabase
+                        .from('projects')
+                        .select(`
+                            *,
+                            profiles:profile_id (
+                                username,
+                                full_name,
+                                avatar_url,
+                                headline
+                            ),
+                            project_skills (
+                                skills (
+                                    name
+                                )
+                            )
+                        `)
+                        .eq('id', projectId)
+                        .eq('profile_id', currentProfileId)
+                        .single()
+
+                    projectData = ownerProject as typeof projectData
+                }
+
+                if (!projectData) {
+                    setError('Project not found')
+                    return
+                }
+
+                // Access control
+                const ownerCheck = currentProfileId && currentProfileId === projectData.profile_id
+                if ((projectData.visibility === 'DRAFT' || projectData.visibility === 'PRIVATE') && !ownerCheck) {
+                    setError('Project not found')
+                    return
+                }
+
+                setProject(projectData)
+            } catch {
+                setError('Failed to load project')
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchProject()
+    }, [projectId, supabase])
+
+    useEffect(() => {
         if (project) {
             setLikeCount(project.likes_count)
             setSaveCount(project.saves_count)
