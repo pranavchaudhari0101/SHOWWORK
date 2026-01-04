@@ -1,4 +1,4 @@
-import Link from 'next/link'
+
 import Navbar from '@/components/Navbar'
 import { MapPin, Clock, Briefcase, ArrowRight, Heart, Zap, Users } from 'lucide-react'
 
@@ -55,7 +55,7 @@ export default function CareersPage() {
                         <h1 className="text-4xl md:text-5xl font-bold mb-6">Join Our Team</h1>
                         <p className="text-xl text-gray-400 max-w-2xl mx-auto">
                             Help us build the platform where developers showcase their best work.
-                            We're a small, remote team making a big impact.
+                            We&apos;re a small, remote team making a big impact.
                         </p>
                     </div>
 

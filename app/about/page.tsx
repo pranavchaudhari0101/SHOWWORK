@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import { Users, Target, Lightbulb, Heart } from 'lucide-react'
 
@@ -13,7 +12,7 @@ export default function AboutPage() {
                     <div className="text-center mb-16">
                         <h1 className="text-4xl md:text-5xl font-bold mb-6">About ShowWork</h1>
                         <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-                            We're building the platform where students and developers showcase their best work and get discovered by the world.
+                            We&apos;re building the platform where students and developers showcase their best work and get discovered by the world.
                         </p>
                     </div>
 
@@ -26,7 +25,7 @@ export default function AboutPage() {
                             </div>
                             <p className="text-gray-300 text-lg leading-relaxed">
                                 ShowWork exists to bridge the gap between talented developers and opportunities.
-                                We believe that your work should speak for itself. Whether you're a student
+                                We believe that your work should speak for itself. Whether you&apos;re a student
                                 building your first project or an experienced developer with a portfolio of
                                 impressive work, ShowWork gives you a platform to showcase your skills and
                                 get noticed.
@@ -75,12 +74,12 @@ export default function AboutPage() {
                             <p className="text-gray-300 mb-4">
                                 ShowWork started with a simple observation: talented students were building
                                 amazing projects but had no good way to showcase them. GitHub is great for
-                                code, but it doesn't tell the story of what you built and why.
+                                code, but it doesn&apos;t tell the story of what you built and why.
                             </p>
                             <p className="text-gray-300 mb-4">
                                 We created ShowWork to be the place where developers can present their work
                                 beautifully - with context, visuals, and the narrative behind each project.
-                                It's portfolio meets social network, designed specifically for the developer community.
+                                It&apos;s portfolio meets social network, designed specifically for the developer community.
                             </p>
                             <p className="text-gray-300">
                                 Today, ShowWork is home to thousands of projects from developers around the
