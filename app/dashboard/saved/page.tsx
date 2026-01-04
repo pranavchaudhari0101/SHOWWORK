@@ -50,7 +50,11 @@ export default async function SavedPage() {
         .order('created_at', { ascending: false })
 
     // Extract projects from the join structure and filter out any potentially null values
-    const projects = savedItems?.map(item => item.project).filter(Boolean) || []
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const projects = (savedItems as any[])?.map(item => {
+        const p = item.project
+        return Array.isArray(p) ? p[0] : p
+    }).filter(Boolean) || []
 
     return (
         <>
@@ -72,7 +76,7 @@ export default async function SavedPage() {
                 </div>
             ) : (
                 <div className="grid gap-4">
-                    {projects.map((project: any) => (
+                    {projects.map((project) => (
                         <Link
                             key={project.id}
                             href={`/project/${project.id}`}
