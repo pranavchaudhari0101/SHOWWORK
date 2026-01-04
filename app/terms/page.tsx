@@ -34,7 +34,7 @@ export default function TermsPage() {
                                 <li>You are responsible for maintaining the security of your account</li>
                                 <li>You must be at least 13 years old to use ShowWork</li>
                                 <li>One person or entity may only maintain one account</li>
-                                <li>You may not use another user's account without permission</li>
+                                <li>You may not use another user&apos;s account without permission</li>
                             </ul>
                         </section>
 
@@ -91,7 +91,7 @@ export default function TermsPage() {
                         <section>
                             <h2 className="text-2xl font-semibold mb-4">8. Disclaimer of Warranties</h2>
                             <p className="text-gray-300 leading-relaxed">
-                                ShowWork is provided "as is" and "as available" without warranties of any
+                                ShowWork is provided &quot;as is&quot; and &quot;as available&quot; without warranties of any
                                 kind, either express or implied. We do not guarantee that the service will
                                 be uninterrupted, secure, or error-free.
                             </p>
