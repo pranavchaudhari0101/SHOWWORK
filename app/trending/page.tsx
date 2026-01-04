@@ -9,7 +9,7 @@ export default async function TrendingPage() {
     const supabase = await createClient()
 
     // Fetch top 20 public projects sorted by likes then views
-    const { data: projects } = await supabase
+    const { data: rawProjects } = await supabase
         .from('projects')
         .select(`
             id,
@@ -26,8 +26,16 @@ export default async function TrendingPage() {
         .order('views_count', { ascending: false })
         .limit(20)
 
-    const top3 = projects?.slice(0, 3) || []
-    const rest = projects?.slice(3) || []
+    // Normalize data to handle Supabase join array/object ambiguity
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const projects = rawProjects?.map((p: any) => ({
+        ...p,
+        author: Array.isArray(p.profiles) ? p.profiles[0]?.full_name : p.profiles?.full_name,
+        username: Array.isArray(p.profiles) ? p.profiles[0]?.username : p.profiles?.username
+    })) || []
+
+    const top3 = projects.slice(0, 3)
+    const rest = projects.slice(3)
 
     return (
         <>
@@ -71,7 +79,7 @@ export default async function TrendingPage() {
                                         </div>
 
                                         <h3 className="font-medium text-lg mb-1 truncate" title={project.title}>{project.title}</h3>
-                                        <p className="text-sm text-gray-500 mb-4 truncate">by {project.profiles?.full_name || 'Unknown'}</p>
+                                        <p className="text-sm text-gray-500 mb-4 truncate">by {project.author || 'Unknown'}</p>
                                     </div>
 
                                     <div className="flex gap-4 text-sm text-gray-500 pt-4 border-t border-gray-800">
@@ -108,7 +116,7 @@ export default async function TrendingPage() {
                                                 </Link>
                                             </td>
                                             <td className="p-4 text-gray-500 hidden md:table-cell">
-                                                {project.profiles?.full_name || 'Unknown'}
+                                                {project.author || 'Unknown'}
                                             </td>
                                             <td className="p-4 text-right">
                                                 <div className="flex justify-end gap-3 text-sm text-gray-500">
