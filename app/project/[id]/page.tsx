@@ -264,17 +264,17 @@ export default function ProjectPage() {
 
     // Incremenet view count on mount (once per session)
     useEffect(() => {
-        async function incrementView() {
-            const viewedKey = `viewed_project_${projectId}`
-            const hasViewed = sessionStorage.getItem(viewedKey)
+        const viewedKey = `viewed_project_${projectId}`
+        const hasViewed = sessionStorage.getItem(viewedKey)
 
-            if (!hasViewed) {
-                await supabase.rpc('increment_views', { project_id: projectId })
-                sessionStorage.setItem(viewedKey, 'true')
-            }
-        }
-        if (projectId) {
-            incrementView()
+        if (!hasViewed) {
+            // Mark as viewed immediately to prevent race conditions (React Strict Mode / fast re-mounts)
+            sessionStorage.setItem(viewedKey, 'true')
+
+            // Fire and forget the increment
+            supabase.rpc('increment_views', { project_id: projectId }).then(({ error }) => {
+                if (error) console.error('Error incrementing views:', error)
+            })
         }
     }, [projectId, supabase])
 
