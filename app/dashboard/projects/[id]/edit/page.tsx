@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { ChevronLeft, Loader2, Check, X, Plus, Github, ExternalLink, Trash2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import { revalidateProject } from '@/app/actions'
 
 interface Project {
     id: string
@@ -24,6 +25,7 @@ export default function EditProjectPage({ params }: { params: { id: string } }) 
     const supabase = createClient()
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
+    const [publishing, setPublishing] = useState(false)
     const [deleting, setDeleting] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState<string | null>(null)
@@ -184,7 +186,8 @@ export default function EditProjectPage({ params }: { params: { id: string } }) 
     }
 
     const handlePublish = async () => {
-        setSaving(true)
+        setPublishing(true)
+        setError(null)
         try {
             const { error: publishError } = await supabase
                 .from('projects')
@@ -196,11 +199,16 @@ export default function EditProjectPage({ params }: { params: { id: string } }) 
                 return
             }
 
+            // Revalidate to ensure fresh data on explore and project pages
+            await revalidateProject(params.id)
+
             setFormData({ ...formData, visibility: 'PUBLIC' })
             setSuccess('Project published! It will now appear in Explore.')
             setTimeout(() => setSuccess(null), 3000)
+        } catch {
+            setError('An unexpected error occurred while publishing')
         } finally {
-            setSaving(false)
+            setPublishing(false)
         }
     }
 
@@ -237,12 +245,12 @@ export default function EditProjectPage({ params }: { params: { id: string } }) 
                 </div>
                 <div className="flex items-center gap-3">
                     {formData.visibility === 'DRAFT' && (
-                        <button onClick={handlePublish} disabled={saving} className="btn btn-primary">
-                            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                        <button onClick={handlePublish} disabled={publishing || saving} className="btn btn-primary">
+                            {publishing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                             Publish
                         </button>
                     )}
-                    <button onClick={handleSave} disabled={saving} className="btn btn-secondary">
+                    <button onClick={handleSave} disabled={saving || publishing} className="btn btn-secondary">
                         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                         Save Changes
                     </button>

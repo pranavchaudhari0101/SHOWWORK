@@ -1,317 +1,85 @@
-'use client'
-
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useParams } from 'next/navigation'
-import { Heart, Bookmark, Share2, ExternalLink, Github, ChevronLeft, Eye, Calendar, Loader2 } from 'lucide-react'
+import { notFound } from 'next/navigation'
+import { ExternalLink, Github, ChevronLeft, Eye, Calendar, Heart, Bookmark } from 'lucide-react'
 import Navbar from '@/components/Navbar'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/supabase/server'
+import ProjectActions from './ProjectActions'
 
-interface Project {
-    id: string
-    title: string
-    short_desc: string
-    full_desc: string
-    cover_image_url: string | null
-    github_url: string | null
-    live_url: string | null
-    visibility: string
-    profile_id: string
-    likes_count: number
-    saves_count: number
-    views_count: number
-    created_at: string
-    profiles: {
+// Force dynamic rendering to ensure fresh data
+export const dynamic = 'force-dynamic'
+
+interface ProjectPageProps {
+    params: { id: string }
+}
+
+export default async function ProjectPage({ params }: ProjectPageProps) {
+    const supabase = await createClient()
+    const projectId = params.id
+
+    // Get current user (may be null for anonymous)
+    const { data: { user } } = await supabase.auth.getUser()
+
+    // Get user's profile ID if authenticated
+    let currentProfileId: string | null = null
+    if (user) {
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('user_id', user.id)
+            .single()
+        currentProfileId = profile?.id || null
+    }
+
+    // STEP 1: Fetch project by ID first (no visibility filter)
+    // RLS policies will allow: PUBLIC projects OR owner's own projects
+    const { data: project, error } = await supabase
+        .from('projects')
+        .select(`
+            *,
+            profiles:profile_id (
+                username,
+                full_name,
+                avatar_url,
+                headline
+            ),
+            project_skills (
+                skills (
+                    name
+                )
+            )
+        `)
+        .eq('id', projectId)
+        .single()
+
+    // STEP 2: Resolve access
+    // If project doesn't exist or RLS blocked it, show 404
+    if (error || !project) {
+        notFound()
+    }
+
+    // STEP 3: Additional access control for non-PUBLIC projects
+    // Check if user is the owner for DRAFT/PRIVATE projects
+    const isOwner = currentProfileId && currentProfileId === project.profile_id
+    const isPublic = project.visibility === 'PUBLIC'
+
+    // If not public and not owner, deny access
+    if (!isPublic && !isOwner) {
+        notFound()
+    }
+
+    // Extract skills
+    const skills = project.project_skills
+        ? project.project_skills.map((ps: { skills: { name: string } | null }) => ps.skills?.name).filter(Boolean) as string[]
+        : []
+
+    // Get profile data with type safety
+    const profile = project.profiles as {
         username: string
         full_name: string
         avatar_url: string | null
         headline: string | null
     } | null
-    project_skills: Array<{
-        skills: {
-            name: string
-        } | null
-    }>
-}
-
-export default function ProjectPage() {
-    const params = useParams()
-    const projectId = params.id as string
-    const supabase = createClient()
-    const [project, setProject] = useState<Project | null>(null)
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState<string | null>(null)
-    const [isLiked, setIsLiked] = useState(false)
-    const [isSaved, setIsSaved] = useState(false)
-    const [likeCount, setLikeCount] = useState(0)
-    const [saveCount, setSaveCount] = useState(0)
-
-    useEffect(() => {
-        async function fetchProject() {
-            try {
-                // Get current user
-                const { data: { user } } = await supabase.auth.getUser()
-
-                // Get user's profile ID if authenticated
-                let currentProfileId: string | null = null
-                if (user) {
-                    const { data: profile } = await supabase
-                        .from('profiles')
-                        .select('id')
-                        .eq('user_id', user.id)
-                        .single()
-                    currentProfileId = profile?.id || null
-                }
-
-                // Fetch project - try standard query first
-                let { data: projectData } = await supabase
-                    .from('projects')
-                    .select(`
-                        *,
-                        profiles:profile_id (
-                            username,
-                            full_name,
-                            avatar_url,
-                            headline
-                        ),
-                        project_skills (
-                            skills (
-                                name
-                            )
-                        )
-                    `)
-                    .eq('id', projectId)
-                    .single()
-
-                // If no project found and user is authenticated, try fetching as owner
-                if (!projectData && currentProfileId) {
-                    const { data: ownerProject } = await supabase
-                        .from('projects')
-                        .select(`
-                            *,
-                            profiles:profile_id (
-                                username,
-                                full_name,
-                                avatar_url,
-                                headline
-                            ),
-                            project_skills (
-                                skills (
-                                    name
-                                )
-                            )
-                        `)
-                        .eq('id', projectId)
-                        .eq('profile_id', currentProfileId)
-                        .single()
-
-                    projectData = ownerProject as typeof projectData
-                }
-
-                if (!projectData) {
-                    setError('Project not found')
-                    return
-                }
-
-                // Access control
-                const ownerCheck = currentProfileId && currentProfileId === projectData.profile_id
-                if ((projectData.visibility === 'DRAFT' || projectData.visibility === 'PRIVATE') && !ownerCheck) {
-                    setError('Project not found')
-                    return
-                }
-
-                setProject(projectData)
-            } catch {
-                setError('Failed to load project')
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        fetchProject()
-    }, [projectId, supabase])
-
-    useEffect(() => {
-        if (project) {
-            setLikeCount(project.likes_count)
-            setSaveCount(project.saves_count)
-        }
-    }, [project])
-
-    useEffect(() => {
-        async function checkSocialStatus() {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (!user) return
-
-            // Get profile id
-            const { data: profile } = await supabase
-                .from('profiles')
-                .select('id')
-                .eq('user_id', user.id)
-                .single()
-
-            if (!profile) return
-
-            // Check if liked
-            const { data: likeData } = await supabase
-                .from('project_likes')
-                .select('profile_id')
-                .eq('project_id', projectId)
-                .eq('profile_id', profile.id)
-                .single()
-
-            setIsLiked(!!likeData)
-
-            // Check if saved
-            const { data: saveData } = await supabase
-                .from('project_saves')
-                .select('profile_id')
-                .eq('project_id', projectId)
-                .eq('profile_id', profile.id)
-                .single()
-
-            setIsSaved(!!saveData)
-        }
-
-        if (projectId) {
-            checkSocialStatus()
-        }
-    }, [projectId, supabase])
-
-    const handleLike = async () => {
-        const { data: { user } } = await supabase.auth.getUser()
-        if (!user) {
-            window.location.href = '/login'
-            return
-        }
-
-        // Optimistic update
-        setIsLiked(!isLiked)
-        setLikeCount(prev => isLiked ? prev - 1 : prev + 1)
-
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('id')
-            .eq('user_id', user.id)
-            .single()
-
-        if (!profile) return
-
-        if (isLiked) {
-            // Unlike
-            await supabase
-                .from('project_likes')
-                .delete()
-                .eq('project_id', projectId)
-                .eq('profile_id', profile.id)
-        } else {
-            // Like
-            await supabase
-                .from('project_likes')
-                .insert({
-                    project_id: projectId,
-                    profile_id: profile.id
-                })
-        }
-    }
-
-    const handleSave = async () => {
-        const { data: { user } } = await supabase.auth.getUser()
-        if (!user) {
-            window.location.href = '/login'
-            return
-        }
-
-        // Optimistic update
-        setIsSaved(!isSaved)
-        setSaveCount(prev => isSaved ? prev - 1 : prev + 1)
-
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('id')
-            .eq('user_id', user.id)
-            .single()
-
-        if (!profile) return
-
-        if (isSaved) {
-            // Unsave
-            await supabase
-                .from('project_saves')
-                .delete()
-                .eq('project_id', projectId)
-                .eq('profile_id', profile.id)
-        } else {
-            // Save
-            await supabase
-                .from('project_saves')
-                .insert({
-                    project_id: projectId,
-                    profile_id: profile.id
-                })
-        }
-    }
-
-    const handleShare = async () => {
-        try {
-            await navigator.clipboard.writeText(window.location.href)
-            alert('Link copied to clipboard!')
-        } catch (err) {
-            console.error('Failed to copy:', err)
-        }
-    }
-
-    // Incremenet view count on mount (once per session)
-    useEffect(() => {
-        const viewedKey = `viewed_project_${projectId}`
-        const hasViewed = sessionStorage.getItem(viewedKey)
-
-        if (!hasViewed) {
-            // Mark as viewed immediately to prevent race conditions (React Strict Mode / fast re-mounts)
-            sessionStorage.setItem(viewedKey, 'true')
-
-            // Fire and forget the increment
-            supabase.rpc('increment_views', { project_id: projectId }).then(({ error }) => {
-                if (error) console.error('Error incrementing views:', error)
-            })
-        }
-    }, [projectId, supabase])
-
-    if (loading) {
-        return (
-            <>
-                <Navbar />
-                <main className="pt-24 pb-16">
-                    <div className="container max-w-4xl flex items-center justify-center min-h-[50vh]">
-                        <Loader2 className="w-8 h-8 animate-spin text-gray-500" />
-                    </div>
-                </main>
-            </>
-        )
-    }
-
-    if (error || !project) {
-        return (
-            <>
-                <Navbar />
-                <main className="pt-24 pb-16">
-                    <div className="container max-w-4xl text-center py-20">
-                        <h1 className="text-2xl font-medium mb-4">Project Not Found</h1>
-                        <p className="text-gray-500 mb-8">The project you&apos;re looking for doesn&apos;t exist or is not accessible.</p>
-                        <Link href="/explore" className="btn btn-primary">
-                            Back to Explore
-                        </Link>
-                    </div>
-                </main>
-            </>
-        )
-    }
-
-    // Extract skills
-    const skills = project.project_skills
-        ? project.project_skills.map(ps => ps.skills?.name).filter(Boolean) as string[]
-        : []
 
     return (
         <>
@@ -357,28 +125,12 @@ export default function ProjectPage() {
 
                     {/* Actions */}
                     <div className="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4 mb-10 pb-8 border-b border-gray-800">
-                        <div className="flex gap-2 w-full sm:w-auto">
-                            <button
-                                onClick={handleLike}
-                                className={`btn flex-1 sm:flex-none justify-center ${isLiked ? 'bg-red-500/10 text-red-500 border-red-500/50' : 'btn-secondary'}`}
-                            >
-                                <Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
-                                <span className="ml-2">{likeCount}</span>
-                            </button>
-                            <button
-                                onClick={handleSave}
-                                className={`btn flex-1 sm:flex-none justify-center ${isSaved ? 'bg-blue-500/10 text-blue-500 border-blue-500/50' : 'btn-secondary'}`}
-                            >
-                                <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
-                                <span className="ml-2">{saveCount}</span>
-                            </button>
-                            <button
-                                onClick={handleShare}
-                                className="btn btn-ghost flex-1 sm:flex-none justify-center"
-                            >
-                                <Share2 className="w-4 h-4" />
-                            </button>
-                        </div>
+                        {/* Client Component for interactive actions */}
+                        <ProjectActions
+                            projectId={project.id}
+                            initialLikeCount={project.likes_count || 0}
+                            initialSaveCount={project.saves_count || 0}
+                        />
 
                         <div className="flex gap-3 w-full sm:w-auto">
                             {project.github_url && (
@@ -421,24 +173,24 @@ export default function ProjectPage() {
                             {/* Author Card */}
                             <div className="card p-5 hover:border-gray-700 transition-colors">
                                 <p className="text-xs uppercase tracking-wider text-gray-500 mb-4 font-semibold">Created by</p>
-                                <Link href={`/profile/${project.profiles?.username}`} className="flex items-center gap-3 group">
+                                <Link href={`/profile/${profile?.username}`} className="flex items-center gap-3 group">
                                     <div className="w-10 h-10 rounded-full bg-gray-800 overflow-hidden relative border border-gray-700">
-                                        {project.profiles?.avatar_url ? (
+                                        {profile?.avatar_url ? (
                                             <Image
-                                                src={project.profiles.avatar_url}
-                                                alt={project.profiles.full_name}
+                                                src={profile.avatar_url}
+                                                alt={profile.full_name}
                                                 fill
                                                 className="object-cover"
                                             />
                                         ) : (
                                             <div className="flex items-center justify-center h-full text-xs font-bold text-gray-400">
-                                                {project.profiles?.full_name?.charAt(0) || 'U'}
+                                                {profile?.full_name?.charAt(0) || 'U'}
                                             </div>
                                         )}
                                     </div>
                                     <div>
-                                        <p className="font-medium group-hover:text-blue-400 transition-colors">{project.profiles?.full_name}</p>
-                                        <p className="text-sm text-gray-500 line-clamp-1">{project.profiles?.headline || 'Member'}</p>
+                                        <p className="font-medium group-hover:text-blue-400 transition-colors">{profile?.full_name}</p>
+                                        <p className="text-sm text-gray-500 line-clamp-1">{profile?.headline || 'Member'}</p>
                                     </div>
                                 </Link>
                             </div>
@@ -465,11 +217,11 @@ export default function ProjectPage() {
                                     </div>
                                     <div className="flex justify-between items-center py-1 border-b border-gray-800/50">
                                         <span className="text-gray-500 flex items-center gap-2"><Heart className="w-3 h-3" /> Likes</span>
-                                        <span className="font-mono">{likeCount}</span>
+                                        <span className="font-mono">{project.likes_count || 0}</span>
                                     </div>
                                     <div className="flex justify-between items-center py-1 border-b border-gray-800/50">
                                         <span className="text-gray-500 flex items-center gap-2"><Bookmark className="w-3 h-3" /> Saves</span>
-                                        <span className="font-mono">{saveCount}</span>
+                                        <span className="font-mono">{project.saves_count || 0}</span>
                                     </div>
                                     <div className="flex justify-between items-center py-1">
                                         <span className="text-gray-500 flex items-center gap-2"><Calendar className="w-3 h-3" /> Published</span>
