@@ -42,93 +42,149 @@ export default function ProjectPage() {
     const [project, setProject] = useState<Project | null>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
-    const [_isOwner, setIsOwner] = useState(false)
+    const [isLiked, setIsLiked] = useState(false)
+    const [isSaved, setIsSaved] = useState(false)
+    const [likeCount, setLikeCount] = useState(0)
+    const [saveCount, setSaveCount] = useState(0)
 
     useEffect(() => {
-        async function fetchProject() {
-            try {
-                // Get current user
-                const { data: { user } } = await supabase.auth.getUser()
+        if (project) {
+            setLikeCount(project.likes_count)
+            setSaveCount(project.saves_count)
+        }
+    }, [project])
 
-                // Get user's profile ID if authenticated
-                let currentProfileId: string | null = null
-                if (user) {
-                    const { data: profile } = await supabase
-                        .from('profiles')
-                        .select('id')
-                        .eq('user_id', user.id)
-                        .single()
-                    currentProfileId = profile?.id || null
-                }
+    useEffect(() => {
+        async function checkSocialStatus() {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
 
-                // Fetch project - try standard query first
-                let { data: projectData } = await supabase
-                    .from('projects')
-                    .select(`
-                        *,
-                        profiles:profile_id (
-                            username,
-                            full_name,
-                            avatar_url,
-                            headline
-                        ),
-                        project_skills (
-                            skills (
-                                name
-                            )
-                        )
-                    `)
-                    .eq('id', projectId)
-                    .single()
+            // Get profile id
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('id')
+                .eq('user_id', user.id)
+                .single()
 
-                // If no project found and user is authenticated, try fetching as owner
-                if (!projectData && currentProfileId) {
-                    const { data: ownerProject } = await supabase
-                        .from('projects')
-                        .select(`
-                            *,
-                            profiles:profile_id (
-                                username,
-                                full_name,
-                                avatar_url,
-                                headline
-                            ),
-                            project_skills (
-                                skills (
-                                    name
-                                )
-                            )
-                        `)
-                        .eq('id', projectId)
-                        .eq('profile_id', currentProfileId)
-                        .single()
+            if (!profile) return
 
-                    projectData = ownerProject as typeof projectData
-                }
+            // Check if liked
+            const { data: likeData } = await supabase
+                .from('project_likes')
+                .select('profile_id')
+                .eq('project_id', projectId)
+                .eq('profile_id', profile.id)
+                .single()
 
-                if (!projectData) {
-                    setError('Project not found')
-                    return
-                }
+            setIsLiked(!!likeData)
 
-                // Access control: DRAFT and PRIVATE only visible to owner
-                const ownerCheck = currentProfileId && currentProfileId === projectData.profile_id
-                setIsOwner(!!ownerCheck)
+            // Check if saved
+            const { data: saveData } = await supabase
+                .from('project_saves')
+                .select('profile_id')
+                .eq('project_id', projectId)
+                .eq('profile_id', profile.id)
+                .single()
 
-                if ((projectData.visibility === 'DRAFT' || projectData.visibility === 'PRIVATE') && !ownerCheck) {
-                    setError('Project not found')
-                    return
-                }
-
-                setProject(projectData)
-            } catch {
-                setError('Failed to load project')
-            } finally {
-                setLoading(false)
-            }
+            setIsSaved(!!saveData)
         }
 
-        fetchProject()
+        if (projectId) {
+            checkSocialStatus()
+        }
+    }, [projectId, supabase])
+
+    const handleLike = async () => {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) {
+            window.location.href = '/login'
+            return
+        }
+
+        // Optimistic update
+        setIsLiked(!isLiked)
+        setLikeCount(prev => isLiked ? prev - 1 : prev + 1)
+
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('user_id', user.id)
+            .single()
+
+        if (!profile) return
+
+        if (isLiked) {
+            // Unlike
+            await supabase
+                .from('project_likes')
+                .delete()
+                .eq('project_id', projectId)
+                .eq('profile_id', profile.id)
+        } else {
+            // Like
+            await supabase
+                .from('project_likes')
+                .insert({
+                    project_id: projectId,
+                    profile_id: profile.id
+                })
+        }
+    }
+
+    const handleSave = async () => {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) {
+            window.location.href = '/login'
+            return
+        }
+
+        // Optimistic update
+        setIsSaved(!isSaved)
+        setSaveCount(prev => isSaved ? prev - 1 : prev + 1)
+
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('user_id', user.id)
+            .single()
+
+        if (!profile) return
+
+        if (isSaved) {
+            // Unsave
+            await supabase
+                .from('project_saves')
+                .delete()
+                .eq('project_id', projectId)
+                .eq('profile_id', profile.id)
+        } else {
+            // Save
+            await supabase
+                .from('project_saves')
+                .insert({
+                    project_id: projectId,
+                    profile_id: profile.id
+                })
+        }
+    }
+
+    const handleShare = async () => {
+        try {
+            await navigator.clipboard.writeText(window.location.href)
+            alert('Link copied to clipboard!')
+        } catch (err) {
+            console.error('Failed to copy:', err)
+        }
+    }
+
+    // Incremenet view count on mount
+    useEffect(() => {
+        async function incrementView() {
+            await supabase.rpc('increment_views', { project_id: projectId })
+        }
+        if (projectId) {
+            incrementView()
+        }
     }, [projectId, supabase])
 
     if (loading) {
@@ -211,15 +267,24 @@ export default function ProjectPage() {
                     {/* Actions */}
                     <div className="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4 mb-10 pb-8 border-b border-gray-800">
                         <div className="flex gap-2 w-full sm:w-auto">
-                            <button className="btn btn-secondary flex-1 sm:flex-none justify-center">
-                                <Heart className="w-4 h-4" />
-                                <span className="ml-2">{project.likes_count || 0}</span>
+                            <button
+                                onClick={handleLike}
+                                className={`btn flex-1 sm:flex-none justify-center ${isLiked ? 'bg-red-500/10 text-red-500 border-red-500/50' : 'btn-secondary'}`}
+                            >
+                                <Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
+                                <span className="ml-2">{likeCount}</span>
                             </button>
-                            <button className="btn btn-secondary flex-1 sm:flex-none justify-center">
-                                <Bookmark className="w-4 h-4" />
-                                <span className="ml-2">{project.saves_count || 0}</span>
+                            <button
+                                onClick={handleSave}
+                                className={`btn flex-1 sm:flex-none justify-center ${isSaved ? 'bg-blue-500/10 text-blue-500 border-blue-500/50' : 'btn-secondary'}`}
+                            >
+                                <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
+                                <span className="ml-2">{saveCount}</span>
                             </button>
-                            <button className="btn btn-ghost flex-1 sm:flex-none justify-center">
+                            <button
+                                onClick={handleShare}
+                                className="btn btn-ghost flex-1 sm:flex-none justify-center"
+                            >
                                 <Share2 className="w-4 h-4" />
                             </button>
                         </div>
@@ -309,11 +374,11 @@ export default function ProjectPage() {
                                     </div>
                                     <div className="flex justify-between items-center py-1 border-b border-gray-800/50">
                                         <span className="text-gray-500 flex items-center gap-2"><Heart className="w-3 h-3" /> Likes</span>
-                                        <span className="font-mono">{project.likes_count || 0}</span>
+                                        <span className="font-mono">{likeCount}</span>
                                     </div>
                                     <div className="flex justify-between items-center py-1 border-b border-gray-800/50">
                                         <span className="text-gray-500 flex items-center gap-2"><Bookmark className="w-3 h-3" /> Saves</span>
-                                        <span className="font-mono">{project.saves_count || 0}</span>
+                                        <span className="font-mono">{saveCount}</span>
                                     </div>
                                     <div className="flex justify-between items-center py-1">
                                         <span className="text-gray-500 flex items-center gap-2"><Calendar className="w-3 h-3" /> Published</span>
