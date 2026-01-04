@@ -11,6 +11,9 @@ export const dynamic = 'force-dynamic'
 export default async function HomePage() {
     const supabase = await createClient()
 
+    // Check auth status
+    const { data: { user } } = await supabase.auth.getUser()
+
     // Fetch counts for categories
     const categoriesToCheck = [
         { id: 'fullstack', label: 'Full-Stack Developer', icon: Layers },
@@ -59,10 +62,17 @@ export default async function HomePage() {
                         </p>
 
                         <div className="flex flex-wrap gap-4 fade-up fade-up-4">
-                            <Link href="/register" className="btn btn-primary">
-                                Start for free
-                                <ArrowRight className="w-4 h-4" />
-                            </Link>
+                            {user ? (
+                                <Link href="/dashboard" className="btn btn-primary">
+                                    Go to Dashboard
+                                    <ArrowRight className="w-4 h-4" />
+                                </Link>
+                            ) : (
+                                <Link href="/register" className="btn btn-primary">
+                                    Start for free
+                                    <ArrowRight className="w-4 h-4" />
+                                </Link>
+                            )}
                             <Link href="/explore" className="btn btn-secondary">
                                 Explore projects
                             </Link>
@@ -228,10 +238,17 @@ export default async function HomePage() {
                         Ready to showcase your work<span className="accent-dot">?</span>
                     </h2>
                     <p className="text-lg text-gray-400 mb-8">Join thousands of students who&apos;ve already landed their dream roles.</p>
-                    <Link href="/register" className="btn btn-primary px-8 py-4 text-base">
-                        Create your portfolio
-                        <ArrowRight className="w-5 h-5" />
-                    </Link>
+                    {user ? (
+                        <Link href="/dashboard" className="btn btn-primary px-8 py-4 text-base">
+                            Go to Dashboard
+                            <ArrowRight className="w-5 h-5" />
+                        </Link>
+                    ) : (
+                        <Link href="/register" className="btn btn-primary px-8 py-4 text-base">
+                            Create your portfolio
+                            <ArrowRight className="w-5 h-5" />
+                        </Link>
+                    )}
                 </div>
             </section>
 
