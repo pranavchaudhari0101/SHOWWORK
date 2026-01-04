@@ -45,6 +45,7 @@ export default async function SettingsPage() {
                     <div className="text-center py-6">
                         <div className="w-20 h-20 rounded-full bg-gray-800 border-2 border-gray-700 overflow-hidden flex items-center justify-center mx-auto mb-4">
                             {profile?.avatar_url ? (
+                                /* eslint-disable-next-line @next/next/no-img-element */
                                 <img
                                     src={profile.avatar_url}
                                     alt={profile.full_name || 'User'}

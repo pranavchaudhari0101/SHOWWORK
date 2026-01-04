@@ -70,8 +70,9 @@ export default function ProfileForm({ profile, userEmail }: { profile: Profile |
             const { data } = supabase.storage.from('avatars').getPublicUrl(filePath)
 
             setFormData(prev => ({ ...prev, avatar_url: data.publicUrl }))
-        } catch (error: any) {
-            setError(error.message || 'Error uploading image')
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Error uploading image'
+            setError(message)
         } finally {
             setUploading(false)
         }
