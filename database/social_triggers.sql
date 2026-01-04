@@ -2,14 +2,19 @@
 -- Updates projects table counts automatically when likes/saves happen
 
 -- Function to handle likes count
+-- Function to handle likes count (Self-healing)
 CREATE OR REPLACE FUNCTION handle_project_like()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (TG_OP = 'INSERT') THEN
-        UPDATE projects SET likes_count = likes_count + 1 WHERE id = NEW.project_id;
+        UPDATE projects 
+        SET likes_count = (SELECT count(*) FROM project_likes WHERE project_id = NEW.project_id)
+        WHERE id = NEW.project_id;
         RETURN NEW;
     ELSIF (TG_OP = 'DELETE') THEN
-        UPDATE projects SET likes_count = GREATEST(likes_count - 1, 0) WHERE id = OLD.project_id;
+        UPDATE projects 
+        SET likes_count = (SELECT count(*) FROM project_likes WHERE project_id = OLD.project_id)
+        WHERE id = OLD.project_id;
         RETURN OLD;
     END IF;
     RETURN NULL;
@@ -23,15 +28,19 @@ CREATE TRIGGER on_project_like
     FOR EACH ROW EXECUTE FUNCTION handle_project_like();
 
 
--- Function to handle saves count
+-- Function to handle saves count (Self-healing)
 CREATE OR REPLACE FUNCTION handle_project_save()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (TG_OP = 'INSERT') THEN
-        UPDATE projects SET saves_count = saves_count + 1 WHERE id = NEW.project_id;
+        UPDATE projects 
+        SET saves_count = (SELECT count(*) FROM project_saves WHERE project_id = NEW.project_id)
+        WHERE id = NEW.project_id;
         RETURN NEW;
     ELSIF (TG_OP = 'DELETE') THEN
-        UPDATE projects SET saves_count = GREATEST(saves_count - 1, 0) WHERE id = OLD.project_id;
+        UPDATE projects 
+        SET saves_count = (SELECT count(*) FROM project_saves WHERE project_id = OLD.project_id)
+        WHERE id = OLD.project_id;
         RETURN OLD;
     END IF;
     RETURN NULL;
