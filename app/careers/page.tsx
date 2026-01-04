@@ -159,9 +159,9 @@ export default function CareersPage() {
                     {/* General Application */}
                     <section className="mt-12 text-center">
                         <div className="card p-8 bg-gradient-to-br from-purple-500/10 to-blue-500/10 border-purple-500/20">
-                            <h3 className="text-xl font-semibold mb-3">Don't see a role for you?</h3>
+                            <h3 className="text-xl font-semibold mb-3">Don&apos;t see a role for you?</h3>
                             <p className="text-gray-400 mb-6">
-                                We're always looking for talented people. Send us your resume and we'll keep you in mind.
+                                We&apos;re always looking for talented people. Send us your resume and we&apos;ll keep you in mind.
                             </p>
                             <a
                                 href="mailto:careers@showwork.dev?subject=General Application"

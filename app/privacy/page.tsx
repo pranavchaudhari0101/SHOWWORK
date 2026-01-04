@@ -13,7 +13,7 @@ export default function PrivacyPage() {
                         <section>
                             <h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
                             <p className="text-gray-300 leading-relaxed">
-                                ShowWork ("we," "our," or "us") is committed to protecting your privacy.
+                                ShowWork (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is committed to protecting your privacy.
                                 This Privacy Policy explains how we collect, use, disclose, and safeguard
                                 your information when you use our platform.
                             </p>
