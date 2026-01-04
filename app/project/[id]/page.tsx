@@ -262,10 +262,16 @@ export default function ProjectPage() {
         }
     }
 
-    // Incremenet view count on mount
+    // Incremenet view count on mount (once per session)
     useEffect(() => {
         async function incrementView() {
-            await supabase.rpc('increment_views', { project_id: projectId })
+            const viewedKey = `viewed_project_${projectId}`
+            const hasViewed = sessionStorage.getItem(viewedKey)
+
+            if (!hasViewed) {
+                await supabase.rpc('increment_views', { project_id: projectId })
+                sessionStorage.setItem(viewedKey, 'true')
+            }
         }
         if (projectId) {
             incrementView()
